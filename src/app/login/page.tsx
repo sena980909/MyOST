@@ -68,16 +68,6 @@ export default function LoginPage() {
             Google로 계속하기
           </button>
 
-          {/* Kakao */}
-          <button
-            onClick={() => signIn("kakao", { callbackUrl: "/" })}
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-[#FEE500] rounded-xl text-[#391B1B] font-medium text-sm hover:bg-[#FADA0A] transition-colors"
-          >
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="#391B1B">
-              <path d="M12 3C6.477 3 2 6.463 2 10.691c0 2.725 1.794 5.118 4.508 6.49l-.916 3.388a.427.427 0 00.65.462l3.953-2.62a13.218 13.218 0 001.805.124c5.523 0 10-3.463 10-7.844C22 6.463 17.523 3 12 3z" />
-            </svg>
-            카카오로 계속하기
-          </button>
         </div>
 
         <div className="mt-6 text-center">
