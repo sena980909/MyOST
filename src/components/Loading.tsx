@@ -35,7 +35,7 @@ export default function Loading() {
         {[...Array(5)].map((_, i) => (
           <motion.div
             key={i}
-            className="w-2 bg-gradient-to-t from-purple-600 to-pink-500 rounded-full"
+            className="w-2 bg-gradient-to-t from-pink-300 to-purple-300 rounded-full"
             animate={{
               height: [12, 48, 24, 56, 16],
             }}
@@ -58,7 +58,7 @@ export default function Loading() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.4 }}
-          className="text-white/70 text-lg"
+          className="text-[#6b5b8a] text-lg"
         >
           {LOADING_MESSAGES[messageIndex]}
         </motion.p>
@@ -71,8 +71,8 @@ export default function Loading() {
             key={i}
             className={`w-2 h-2 rounded-full transition-all duration-500 ${
               i <= messageIndex
-                ? "bg-purple-500 scale-100"
-                : "bg-white/20 scale-75"
+                ? "bg-purple-400 scale-100"
+                : "bg-purple-200 scale-75"
             }`}
           />
         ))}

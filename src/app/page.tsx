@@ -45,7 +45,6 @@ export default function Home() {
     migrateEntries,
   } = useJournal();
 
-  // Check for local entries to migrate when logged in
   useEffect(() => {
     if (isLoggedIn) {
       const local = getLocalEntriesForMigration();
@@ -69,14 +68,11 @@ export default function Home() {
 
       if (!analyzeRes.ok) {
         const err = await analyzeRes.json();
-
-        // Handle usage limit exceeded
         if (err.error === "usage_limit_exceeded") {
           setAppState("input");
           setShowUpgradeModal(true);
           return;
         }
-
         throw new Error(err.message || "감정 분석에 실패했어요.");
       }
 
@@ -100,8 +96,6 @@ export default function Home() {
 
       setResult(playlistResult);
       setAppState("result");
-
-      // Refresh usage after successful generation
       loadUsage();
     } catch (error) {
       console.error("Error:", error);
@@ -147,11 +141,12 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
-      {/* Background gradient orbs */}
+      {/* Pastel background orbs */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-purple-700/20 rounded-full blur-[128px]" />
-        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-pink-700/20 rounded-full blur-[128px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-700/10 rounded-full blur-[128px]" />
+        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-pink-200/40 rounded-full blur-[128px]" />
+        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-200/40 rounded-full blur-[128px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-200/30 rounded-full blur-[128px]" />
+        <div className="absolute top-0 right-1/4 w-72 h-72 bg-yellow-100/30 rounded-full blur-[100px]" />
       </div>
 
       <div className="container mx-auto px-4 py-8 md:py-16 pb-20">
@@ -162,7 +157,6 @@ export default function Home() {
           transition={{ duration: 0.6 }}
           className="text-center mb-8 relative"
         >
-          {/* Auth button - top right */}
           <div className="absolute right-0 top-0">
             <AuthButton />
           </div>
@@ -177,7 +171,7 @@ export default function Home() {
               priority
             />
           </div>
-          <p className="text-white/50 text-lg md:text-xl">
+          <p className="text-[#8b7fa3] text-lg md:text-xl">
             당신의 감정에 맞는 음악을 찾아드립니다
           </p>
         </motion.header>
@@ -190,9 +184,7 @@ export default function Home() {
               localEntries={localEntriesForMigration}
               onMigrate={async (entries) => {
                 const count = await migrateEntries(entries);
-                if (count > 0) {
-                  setLocalEntriesForMigration([]);
-                }
+                if (count > 0) setLocalEntriesForMigration([]);
                 return count;
               }}
               onDismiss={() => setShowMigration(false)}
@@ -217,8 +209,8 @@ export default function Home() {
             }}
             className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
               tab === "new"
-                ? "bg-white/10 text-white border border-white/20"
-                : "text-white/40 hover:text-white/60"
+                ? "bg-white/80 text-[#6b5b8a] border border-purple-200 shadow-sm"
+                : "text-[#8b7fa3] hover:text-[#6b5b8a]"
             }`}
           >
             오늘의 OST
@@ -227,13 +219,13 @@ export default function Home() {
             onClick={() => setTab("journal")}
             className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
               tab === "journal"
-                ? "bg-white/10 text-white border border-white/20"
-                : "text-white/40 hover:text-white/60"
+                ? "bg-white/80 text-[#6b5b8a] border border-purple-200 shadow-sm"
+                : "text-[#8b7fa3] hover:text-[#6b5b8a]"
             }`}
           >
             내 기록
             {journalEntries.length > 0 && (
-              <span className="bg-purple-500/30 text-purple-300 text-xs px-1.5 py-0.5 rounded-full">
+              <span className="bg-purple-100 text-purple-500 text-xs px-1.5 py-0.5 rounded-full">
                 {journalEntries.length}
               </span>
             )}
@@ -299,13 +291,13 @@ export default function Home() {
                     className="text-center py-20"
                   >
                     <div className="text-6xl mb-4">:(</div>
-                    <p className="text-white/70 text-lg mb-6">
+                    <p className="text-[#6b5b8a] text-lg mb-6">
                       {errorMessage}
                     </p>
                     <button
                       onClick={handleReset}
-                      className="px-6 py-3 bg-white/10 border border-white/20 rounded-full
-                                 text-white hover:bg-white/20 transition-all duration-200"
+                      className="px-6 py-3 bg-white/80 border border-purple-200 rounded-full
+                                 text-[#6b5b8a] hover:bg-white hover:shadow-sm transition-all duration-200"
                     >
                       다시 시도하기
                     </button>
@@ -326,7 +318,7 @@ export default function Home() {
                     />
 
                     <div className="w-full max-w-2xl mx-auto space-y-3">
-                      <h2 className="text-white/40 text-sm font-medium uppercase tracking-wider mb-4 px-2">
+                      <h2 className="text-[#8b7fa3] text-sm font-medium uppercase tracking-wider mb-4 px-2">
                         Your Playlist
                       </h2>
                       {result.tracks.map((track, index) => (
@@ -345,24 +337,22 @@ export default function Home() {
                       transition={{ delay: 1.2 }}
                       className="flex flex-col sm:flex-row gap-3 justify-center items-center mt-10 mb-8"
                     >
-                      {/* Save button */}
                       <button
                         onClick={handleSave}
                         disabled={saved}
                         className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
                           saved
-                            ? "bg-green-500/20 border border-green-500/30 text-green-300"
-                            : "bg-purple-500/20 border border-purple-500/30 text-purple-300 hover:bg-purple-500/30"
+                            ? "bg-green-50 border border-green-200 text-green-600"
+                            : "bg-purple-50 border border-purple-200 text-purple-600 hover:bg-purple-100"
                         }`}
                       >
                         {saved ? "기록 완료!" : "오늘의 기록으로 저장"}
                       </button>
 
-                      {/* New story button */}
                       <button
                         onClick={handleReset}
-                        className="px-6 py-3 bg-white/5 border border-white/10 rounded-full
-                                   text-white/50 hover:text-white hover:bg-white/10 hover:border-white/20
+                        className="px-6 py-3 bg-white/60 border border-purple-100 rounded-full
+                                   text-[#8b7fa3] hover:text-[#6b5b8a] hover:bg-white/80
                                    transition-all duration-200 text-sm"
                       >
                         새로운 이야기 들려주기
@@ -383,8 +373,8 @@ export default function Home() {
       />
 
       {/* Footer */}
-      <footer className="fixed bottom-0 left-0 right-0 py-4 text-center bg-gradient-to-t from-[#0a0a0f] to-transparent">
-        <p className="text-white/20 text-xs">
+      <footer className="fixed bottom-0 left-0 right-0 py-4 text-center bg-gradient-to-t from-[#f8f5ff] to-transparent">
+        <p className="text-[#c4b5e0] text-xs">
           Powered by OpenAI & YouTube Music
         </p>
       </footer>

@@ -7,11 +7,11 @@ import Image from "next/image";
 export default function LoginPage() {
   return (
     <main className="relative min-h-screen overflow-hidden flex items-center justify-center">
-      {/* Background */}
+      {/* Pastel background */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-purple-700/20 rounded-full blur-[128px]" />
-        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-pink-700/20 rounded-full blur-[128px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-700/10 rounded-full blur-[128px]" />
+        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-pink-200/40 rounded-full blur-[128px]" />
+        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-200/40 rounded-full blur-[128px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-200/30 rounded-full blur-[128px]" />
       </div>
 
       <motion.div
@@ -28,16 +28,16 @@ export default function LoginPage() {
             height={180}
             className="mx-auto mb-4"
           />
-          <p className="text-white/50 text-sm">
+          <p className="text-[#8b7fa3] text-sm">
             로그인하고 감정 기록을 동기화하세요
           </p>
         </div>
 
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-3">
+        <div className="bg-white/80 backdrop-blur-sm border border-purple-100 rounded-2xl p-6 space-y-3 shadow-sm">
           {/* Google */}
           <button
             onClick={() => signIn("google", { callbackUrl: "/" })}
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white rounded-xl text-gray-800 font-medium text-sm hover:bg-gray-100 transition-colors"
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 font-medium text-sm hover:bg-gray-50 hover:shadow-sm transition-all"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -75,7 +75,7 @@ export default function LoginPage() {
         <div className="mt-6 text-center">
           <a
             href="/"
-            className="text-white/30 text-xs hover:text-white/50 transition-colors"
+            className="text-[#c4b5e0] text-xs hover:text-[#8b7fa3] transition-colors"
           >
             로그인 없이 사용하기
           </a>
@@ -83,7 +83,7 @@ export default function LoginPage() {
 
         {/* Benefits */}
         <div className="mt-8 space-y-2">
-          <p className="text-white/30 text-xs text-center mb-3">
+          <p className="text-[#c4b5e0] text-xs text-center mb-3">
             로그인하면 이런 것들이 가능해요
           </p>
           {[
@@ -93,7 +93,7 @@ export default function LoginPage() {
           ].map((benefit) => (
             <div
               key={benefit}
-              className="flex items-center gap-2 text-white/40 text-xs"
+              className="flex items-center gap-2 text-[#8b7fa3] text-xs"
             >
               <svg
                 className="w-3.5 h-3.5 text-purple-400 flex-shrink-0"

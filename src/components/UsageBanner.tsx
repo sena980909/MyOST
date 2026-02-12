@@ -26,28 +26,24 @@ export default function UsageBanner({
       <div
         className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-xs ${
           isPremium
-            ? "bg-amber-500/10 border border-amber-500/20"
+            ? "bg-amber-50 border border-amber-200"
             : isLow
-            ? "bg-red-500/10 border border-red-500/20"
-            : "bg-white/5 border border-white/10"
+            ? "bg-rose-50 border border-rose-200"
+            : "bg-white/60 border border-purple-100"
         }`}
       >
         <div className="flex items-center gap-3">
           {isPremium ? (
-            <span className="text-amber-300">Premium - 무제한</span>
+            <span className="text-amber-600">Premium - 무제한</span>
           ) : (
             <>
-              <span
-                className={
-                  isLow ? "text-red-300" : "text-white/50"
-                }
-              >
+              <span className={isLow ? "text-rose-500" : "text-[#8b7fa3]"}>
                 오늘 {dailyRemaining}/{usageInfo.limit}회
               </span>
               {hasPoints && (
                 <>
-                  <span className="text-white/20">|</span>
-                  <span className="text-emerald-400/80">
+                  <span className="text-purple-200">|</span>
+                  <span className="text-emerald-500">
                     패스권 {usageInfo.points}회
                   </span>
                 </>
@@ -58,20 +54,18 @@ export default function UsageBanner({
         {!isPremium && (
           <button
             onClick={onUpgradeClick}
-            className="text-purple-400/70 hover:text-purple-300 transition-colors"
+            className="text-purple-400 hover:text-purple-500 transition-colors"
           >
             업그레이드
           </button>
         )}
         {isPremium && usageInfo.saveLimit == null && (
-          <span className="text-amber-300/50">
-            저장 {usageInfo.savedCount}개
-          </span>
+          <span className="text-amber-400">저장 {usageInfo.savedCount}개</span>
         )}
       </div>
       {!isPremium && usageInfo.saveLimit != null && (
         <div className="flex justify-end mt-1 px-1">
-          <span className="text-white/20 text-[10px]">
+          <span className="text-[#c4b5e0] text-[10px]">
             저장 {usageInfo.savedCount}/{usageInfo.saveLimit}개
           </span>
         </div>

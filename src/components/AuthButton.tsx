@@ -21,7 +21,7 @@ export default function AuthButton() {
 
   if (status === "loading") {
     return (
-      <div className="w-8 h-8 rounded-full bg-white/10 animate-pulse" />
+      <div className="w-8 h-8 rounded-full bg-purple-100 animate-pulse" />
     );
   }
 
@@ -29,7 +29,7 @@ export default function AuthButton() {
     return (
       <Link
         href="/login"
-        className="px-4 py-1.5 rounded-full text-sm font-medium bg-white/10 border border-white/20 text-white/70 hover:text-white hover:bg-white/15 transition-all duration-200"
+        className="px-4 py-1.5 rounded-full text-sm font-medium bg-white/80 border border-purple-200 text-[#6b5b8a] hover:text-[#4a4458] hover:bg-white transition-all duration-200 shadow-sm"
       >
         로그인
       </Link>
@@ -40,11 +40,11 @@ export default function AuthButton() {
   const tierConfig = {
     premium: {
       label: "Premium",
-      color: "bg-gradient-to-r from-amber-400 to-orange-400 text-black",
+      color: "bg-gradient-to-r from-amber-300 to-orange-300 text-white",
     },
     free: {
       label: "Free",
-      color: "bg-white/10 text-white/50",
+      color: "bg-purple-50 text-purple-400",
     },
   };
   const { label: tierLabel, color: tierColor } =
@@ -61,22 +61,22 @@ export default function AuthButton() {
           <img
             src={session.user.image}
             alt=""
-            className="w-8 h-8 rounded-full border border-white/20 group-hover:border-white/40 transition-colors"
+            className="w-8 h-8 rounded-full border-2 border-purple-100 group-hover:border-purple-200 transition-colors"
           />
         ) : (
-          <div className="w-8 h-8 rounded-full bg-purple-500/30 border border-purple-500/40 flex items-center justify-center text-purple-300 text-sm font-medium">
+          <div className="w-8 h-8 rounded-full bg-purple-100 border-2 border-purple-200 flex items-center justify-center text-purple-500 text-sm font-medium">
             {session.user.name?.[0] ?? "?"}
           </div>
         )}
       </button>
 
       {menuOpen && (
-        <div className="absolute right-0 top-full mt-2 w-56 bg-[#1a1a2e] border border-white/10 rounded-xl shadow-2xl overflow-hidden z-50">
-          <div className="px-4 py-3 border-b border-white/10">
-            <p className="text-white text-sm font-medium truncate">
+        <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-purple-100 rounded-xl shadow-lg overflow-hidden z-50">
+          <div className="px-4 py-3 border-b border-purple-50">
+            <p className="text-[#4a4458] text-sm font-medium truncate">
               {session.user.name}
             </p>
-            <p className="text-white/40 text-xs truncate">
+            <p className="text-[#8b7fa3] text-xs truncate">
               {session.user.email}
             </p>
             <span
@@ -87,7 +87,7 @@ export default function AuthButton() {
           </div>
           <button
             onClick={() => signOut()}
-            className="w-full text-left px-4 py-2.5 text-sm text-white/50 hover:text-white hover:bg-white/5 transition-colors"
+            className="w-full text-left px-4 py-2.5 text-sm text-[#8b7fa3] hover:text-[#4a4458] hover:bg-purple-50/50 transition-colors"
           >
             로그아웃
           </button>
