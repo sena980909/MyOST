@@ -85,24 +85,21 @@ export default function LoginPage() {
         transition={{ duration: 0.5 }}
         className="w-full max-w-sm mx-auto px-4"
       >
-        <div className="mb-8">
-          <div className="mb-4">
-            <Image
-              src="/MyOST-Title.png"
-              alt="MyOST"
-              width={200}
-              height={50}
-            />
-          </div>
-          <div className="flex justify-center mb-3">
-            <Image
-              src="/MyOST-icon.png"
-              alt="MyOST 마스코트"
-              width={260}
-              height={260}
-              className="drop-shadow-lg"
-            />
-          </div>
+        <div className="text-center mb-8">
+          <Image
+            src="/MyOST-Title.png"
+            alt="MyOST"
+            width={200}
+            height={50}
+            className="mx-auto mb-2"
+          />
+          <Image
+            src="/MyOST-icon.png"
+            alt="MyOST 마스코트"
+            width={260}
+            height={260}
+            className="mx-auto drop-shadow-lg mb-3"
+          />
           <p className="text-[#8b7fa3] text-sm">
             {isSignUp
               ? "계정을 만들고 감정 기록을 시작하세요"
