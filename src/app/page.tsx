@@ -165,16 +165,16 @@ export default function Home() {
             <Image
               src="/MyOST-icon.png"
               alt=""
-              width={64}
-              height={64}
+              width={100}
+              height={100}
               className="drop-shadow-sm"
               priority
             />
             <Image
               src="/MyOST-Title.png"
               alt="MyOST"
-              width={180}
-              height={180}
+              width={280}
+              height={280}
               priority
             />
           </div>

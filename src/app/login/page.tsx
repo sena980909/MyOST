@@ -25,15 +25,15 @@ export default function LoginPage() {
             <Image
               src="/MyOST-icon.png"
               alt=""
-              width={56}
-              height={56}
+              width={80}
+              height={80}
               className="drop-shadow-sm"
             />
             <Image
               src="/MyOST-Title.png"
               alt="MyOST"
-              width={160}
-              height={160}
+              width={240}
+              height={240}
             />
           </div>
           <p className="text-[#8b7fa3] text-sm">
