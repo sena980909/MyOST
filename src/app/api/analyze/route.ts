@@ -1,8 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { analyzeAndRecommend } from "@/lib/openai";
+import { auth } from "@/lib/auth";
+import { checkRateLimit, logGeneration } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const session = await auth();
+    const userId = session?.user?.id ?? null;
+    const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+
+    const { allowed, remaining } = await checkRateLimit(userId, ip);
+    if (!allowed) {
+      return NextResponse.json(
+        {
+          error: "rate_limited",
+          message: "1시간에 3번까지 생성할 수 있어요. 잠시 후 다시 시도해주세요.",
+          remaining,
+        },
+        { status: 429 }
+      );
+    }
+
     const { text } = await request.json();
 
     if (!text || typeof text !== "string") {
@@ -23,6 +42,9 @@ export async function POST(request: NextRequest) {
     }
 
     const analysis = await analyzeAndRecommend(text);
+
+    // Log successful generation
+    await logGeneration(userId, ip);
 
     return NextResponse.json({ analysis });
   } catch (error) {

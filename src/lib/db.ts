@@ -141,6 +141,50 @@ export async function saveJournalEntry(
   };
 }
 
+const RATE_LIMIT = 3;
+const RATE_WINDOW_HOURS = 1;
+
+export async function checkRateLimit(
+  userId: string | null,
+  ip: string
+): Promise<{ allowed: boolean; remaining: number }> {
+  const oneHourAgo = new Date(Date.now() - RATE_WINDOW_HOURS * 60 * 60 * 1000).toISOString();
+
+  let query = supabase()
+    .from("generation_logs")
+    .select("id", { count: "exact", head: true })
+    .gte("created_at", oneHourAgo);
+
+  if (userId) {
+    query = query.eq("user_id", userId);
+  } else {
+    query = query.is("user_id", null).eq("ip", ip);
+  }
+
+  const { count, error } = await query;
+
+  if (error) {
+    console.error("Rate limit check error:", error);
+    return { allowed: true, remaining: RATE_LIMIT };
+  }
+
+  const used = count ?? 0;
+  return { allowed: used < RATE_LIMIT, remaining: Math.max(0, RATE_LIMIT - used) };
+}
+
+export async function logGeneration(
+  userId: string | null,
+  ip: string
+): Promise<void> {
+  const { error } = await supabase()
+    .from("generation_logs")
+    .insert({ user_id: userId, ip });
+
+  if (error) {
+    console.error("Failed to log generation:", error);
+  }
+}
+
 export async function deleteJournalEntry(
   userId: string,
   entryId: string

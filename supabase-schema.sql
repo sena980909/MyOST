@@ -55,6 +55,17 @@ CREATE TABLE usage_tracking (
   UNIQUE(user_id, usage_date)
 );
 
+-- Rate limiting: track generation attempts per user/IP
+CREATE TABLE generation_logs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  ip TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_generation_logs_user_id_created ON generation_logs(user_id, created_at);
+CREATE INDEX idx_generation_logs_ip_created ON generation_logs(ip, created_at);
+
 -- Migration: add email/password auth support
 -- ALTER TABLE users ADD COLUMN IF NOT EXISTS password_hash TEXT;
 -- ALTER TABLE users ALTER COLUMN provider DROP NOT NULL;
