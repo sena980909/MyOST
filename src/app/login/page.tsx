@@ -25,15 +25,15 @@ export default function LoginPage() {
             <Image
               src="/MyOST-icon.png"
               alt=""
-              width={80}
-              height={80}
+              width={110}
+              height={110}
               className="drop-shadow-sm"
             />
             <Image
               src="/MyOST-Title.png"
               alt="MyOST"
-              width={240}
-              height={240}
+              width={300}
+              height={300}
             />
           </div>
           <p className="text-[#8b7fa3] text-sm">
@@ -87,7 +87,6 @@ export default function LoginPage() {
           {[
             "모든 기기에서 감정 기록 동기화",
             "감정 기록 영구 보관",
-            "프리미엄 업그레이드 가능",
           ].map((benefit) => (
             <div
               key={benefit}

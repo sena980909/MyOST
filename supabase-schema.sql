@@ -11,8 +11,6 @@ CREATE TABLE users (
   image TEXT,
   provider TEXT NOT NULL,
   provider_account_id TEXT NOT NULL,
-  tier TEXT NOT NULL DEFAULT 'free',        -- 'free' | 'premium'
-  points INT NOT NULL DEFAULT 0,            -- pay-as-you-go credits
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   UNIQUE(provider, provider_account_id)
@@ -47,6 +45,7 @@ CREATE TABLE tracks (
   commentary TEXT NOT NULL
 );
 
+-- Usage tracking kept for analytics
 CREATE TABLE usage_tracking (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -55,30 +54,8 @@ CREATE TABLE usage_tracking (
   UNIQUE(user_id, usage_date)
 );
 
--- Atomic usage increment function
-CREATE OR REPLACE FUNCTION increment_usage(p_user_id UUID, p_date DATE)
-RETURNS INT AS $$
-DECLARE new_count INT;
-BEGIN
-  INSERT INTO usage_tracking (user_id, usage_date, generation_count)
-  VALUES (p_user_id, p_date, 1)
-  ON CONFLICT (user_id, usage_date)
-  DO UPDATE SET generation_count = usage_tracking.generation_count + 1
-  RETURNING generation_count INTO new_count;
-  RETURN new_count;
-END;
-$$ LANGUAGE plpgsql;
-
--- Atomic point deduction function
-CREATE OR REPLACE FUNCTION deduct_point(p_user_id UUID)
-RETURNS VOID AS $$
-BEGIN
-  UPDATE users
-  SET points = points - 1
-  WHERE id = p_user_id AND points > 0;
-
-  IF NOT FOUND THEN
-    RAISE EXCEPTION 'Insufficient points';
-  END IF;
-END;
-$$ LANGUAGE plpgsql;
+-- Migration: run on existing DB to remove paid model columns/functions
+-- ALTER TABLE users DROP COLUMN IF EXISTS tier;
+-- ALTER TABLE users DROP COLUMN IF EXISTS points;
+-- DROP FUNCTION IF EXISTS increment_usage;
+-- DROP FUNCTION IF EXISTS deduct_point;

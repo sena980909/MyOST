@@ -34,7 +34,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (error) {
           console.error("User upsert error:", JSON.stringify(error));
-          // DB 실패해도 로그인은 허용 (세션은 유지, DB 동기화는 나중에)
         }
       } catch (err) {
         console.error("SignIn callback exception:", err);
@@ -48,14 +47,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const supabase = getAdminClient();
         const { data: user } = await supabase
           .from("users")
-          .select("id, tier")
+          .select("id")
           .eq("provider", account.provider)
           .eq("provider_account_id", account.providerAccountId)
           .single();
 
         if (user) {
           token.userId = user.id;
-          token.tier = user.tier;
         }
       }
       return token;
@@ -64,7 +62,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async session({ session, token }) {
       if (token.userId) {
         session.user.id = token.userId as string;
-        session.user.tier = (token.tier as string) ?? "free";
       }
       return session;
     },

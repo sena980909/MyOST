@@ -36,20 +36,6 @@ export default function AuthButton() {
     );
   }
 
-  const tier = session.user.tier;
-  const tierConfig = {
-    premium: {
-      label: "Premium",
-      color: "bg-gradient-to-r from-amber-300 to-orange-300 text-white",
-    },
-    free: {
-      label: "Free",
-      color: "bg-purple-50 text-purple-400",
-    },
-  };
-  const { label: tierLabel, color: tierColor } =
-    tierConfig[tier as keyof typeof tierConfig] ?? tierConfig.free;
-
   return (
     <div className="relative" ref={menuRef}>
       <button
@@ -79,11 +65,6 @@ export default function AuthButton() {
             <p className="text-[#8b7fa3] text-xs truncate">
               {session.user.email}
             </p>
-            <span
-              className={`inline-block mt-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${tierColor}`}
-            >
-              {tierLabel}
-            </span>
           </div>
           <button
             onClick={() => signOut()}

@@ -9,8 +9,7 @@ import Commentary from "@/components/Commentary";
 import PlaylistCard from "@/components/PlaylistCard";
 import JournalTimeline from "@/components/JournalTimeline";
 import AuthButton from "@/components/AuthButton";
-import UsageBanner from "@/components/UsageBanner";
-import PremiumUpgradeModal from "@/components/PremiumUpgradeModal";
+import AdBanner from "@/components/AdBanner";
 import MigrationPrompt from "@/components/MigrationPrompt";
 import { EmotionAnalysis, PlaylistResult, JournalEntry } from "@/types";
 import { useJournal } from "@/hooks/useJournal";
@@ -27,7 +26,6 @@ export default function Home() {
   const [currentText, setCurrentText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [saved, setSaved] = useState(false);
-  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [showMigration, setShowMigration] = useState(true);
   const [localEntriesForMigration, setLocalEntriesForMigration] = useState<
     JournalEntry[]
@@ -35,12 +33,10 @@ export default function Home() {
 
   const {
     entries: journalEntries,
-    usageInfo,
     isLoggedIn,
     saveEntry,
     deleteEntry,
     loadEntries,
-    loadUsage,
     getLocalEntriesForMigration,
     migrateEntries,
   } = useJournal();
@@ -68,11 +64,6 @@ export default function Home() {
 
       if (!analyzeRes.ok) {
         const err = await analyzeRes.json();
-        if (err.error === "usage_limit_exceeded") {
-          setAppState("input");
-          setShowUpgradeModal(true);
-          return;
-        }
         throw new Error(err.message || "감정 분석에 실패했어요.");
       }
 
@@ -96,7 +87,6 @@ export default function Home() {
 
       setResult(playlistResult);
       setAppState("result");
-      loadUsage();
     } catch (error) {
       console.error("Error:", error);
       setErrorMessage(
@@ -165,16 +155,16 @@ export default function Home() {
             <Image
               src="/MyOST-icon.png"
               alt=""
-              width={100}
-              height={100}
+              width={140}
+              height={140}
               className="drop-shadow-sm"
               priority
             />
             <Image
               src="/MyOST-Title.png"
               alt="MyOST"
-              width={280}
-              height={280}
+              width={350}
+              height={350}
               priority
             />
           </div>
@@ -197,13 +187,6 @@ export default function Home() {
               onDismiss={() => setShowMigration(false)}
             />
           )}
-
-        {/* Usage banner */}
-        <UsageBanner
-          usageInfo={usageInfo}
-          isLoggedIn={isLoggedIn}
-          onUpgradeClick={() => setShowUpgradeModal(true)}
-        />
 
         {/* Tabs */}
         <div className="flex justify-center gap-1 mb-8">
@@ -255,6 +238,12 @@ export default function Home() {
                 onEntriesChange={loadEntries}
                 onDelete={handleDelete}
               />
+              {/* Ad after journal list */}
+              {journalEntries.length > 0 && (
+                <div className="mt-6">
+                  <AdBanner slot="journal-list" />
+                </div>
+              )}
             </motion.div>
           ) : (
             <motion.div
@@ -337,12 +326,17 @@ export default function Home() {
                       ))}
                     </div>
 
+                    {/* Ad below playlist, above action buttons */}
+                    <div className="mt-6 mb-4">
+                      <AdBanner slot="result-bottom" />
+                    </div>
+
                     {/* Action buttons */}
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 1.2 }}
-                      className="flex flex-col sm:flex-row gap-3 justify-center items-center mt-10 mb-8"
+                      className="flex flex-col sm:flex-row gap-3 justify-center items-center mt-6 mb-8"
                     >
                       <button
                         onClick={handleSave}
@@ -372,12 +366,6 @@ export default function Home() {
           )}
         </AnimatePresence>
       </div>
-
-      {/* Premium upgrade modal */}
-      <PremiumUpgradeModal
-        isOpen={showUpgradeModal}
-        onClose={() => setShowUpgradeModal(false)}
-      />
 
       {/* Footer */}
       <footer className="fixed bottom-0 left-0 right-0 py-4 text-center bg-gradient-to-t from-[#f8f5ff] to-transparent">

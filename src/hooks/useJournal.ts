@@ -2,21 +2,12 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import { JournalEntry, PlaylistResult, UsageInfo } from "@/types";
+import { JournalEntry, PlaylistResult } from "@/types";
 import {
   getJournalEntries as getLocalEntries,
   saveJournalEntry as saveLocalEntry,
   deleteJournalEntry as deleteLocalEntry,
 } from "@/lib/journal-local";
-
-const DEFAULT_USAGE: UsageInfo = {
-  used: 0,
-  limit: 2,
-  tier: "free",
-  points: 0,
-  savedCount: 0,
-  saveLimit: 5,
-};
 
 export function useJournal() {
   const { data: session } = useSession();
@@ -24,7 +15,6 @@ export function useJournal() {
 
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [loading, setLoading] = useState(true);
-  const [usageInfo, setUsageInfo] = useState<UsageInfo>(DEFAULT_USAGE);
 
   const loadEntries = useCallback(async () => {
     if (!isLoggedIn) {
@@ -46,27 +36,9 @@ export function useJournal() {
     }
   }, [isLoggedIn]);
 
-  const loadUsage = useCallback(async () => {
-    if (!isLoggedIn) {
-      setUsageInfo(DEFAULT_USAGE);
-      return;
-    }
-
-    try {
-      const res = await fetch("/api/usage");
-      if (res.ok) {
-        const data = await res.json();
-        setUsageInfo(data);
-      }
-    } catch (err) {
-      console.error("Failed to load usage:", err);
-    }
-  }, [isLoggedIn]);
-
   useEffect(() => {
     loadEntries();
-    loadUsage();
-  }, [loadEntries, loadUsage]);
+  }, [loadEntries]);
 
   const saveEntry = useCallback(
     async (
@@ -90,20 +62,15 @@ export function useJournal() {
 
         if (res.ok) {
           await loadEntries();
-          await loadUsage();
           return true;
         }
 
-        const err = await res.json();
-        if (err.error === "save_limit_exceeded") {
-          alert(err.message);
-        }
         return false;
       } catch {
         return false;
       }
     },
-    [isLoggedIn, loadEntries, loadUsage]
+    [isLoggedIn, loadEntries]
   );
 
   const deleteEntry = useCallback(
@@ -123,7 +90,6 @@ export function useJournal() {
 
         if (res.ok) {
           await loadEntries();
-          await loadUsage();
           return true;
         }
         return false;
@@ -131,7 +97,7 @@ export function useJournal() {
         return false;
       }
     },
-    [isLoggedIn, loadEntries, loadUsage]
+    [isLoggedIn, loadEntries]
   );
 
   const getLocalEntriesForMigration = useCallback((): JournalEntry[] => {
@@ -152,7 +118,6 @@ export function useJournal() {
         if (res.ok) {
           const data = await res.json();
           await loadEntries();
-          await loadUsage();
           return data.migrated ?? 0;
         }
         return 0;
@@ -160,18 +125,16 @@ export function useJournal() {
         return 0;
       }
     },
-    [isLoggedIn, loadEntries, loadUsage]
+    [isLoggedIn, loadEntries]
   );
 
   return {
     entries,
     loading,
-    usageInfo,
     isLoggedIn,
     saveEntry,
     deleteEntry,
     loadEntries,
-    loadUsage,
     getLocalEntriesForMigration,
     migrateEntries,
   };

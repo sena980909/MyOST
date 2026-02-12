@@ -2,14 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import {
   getJournalEntries,
-  getJournalEntryCount,
   saveJournalEntry,
   deleteJournalEntry,
   migrateLocalEntries,
-  getUserProfile,
 } from "@/lib/db";
-
-const FREE_SAVE_LIMIT = 5;
 
 export async function GET() {
   const session = await auth();
@@ -35,28 +31,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ migrated });
   }
 
-  // Normal save - check save limit for free tier
+  // Normal save
   const { text, emotions, context, playlist } = body;
 
   if (!text || !emotions || !context || !playlist) {
     return NextResponse.json(
       { error: "missing_fields", message: "필수 필드가 누락되었습니다." },
       { status: 400 }
-    );
-  }
-
-  const [profile, savedCount] = await Promise.all([
-    getUserProfile(session.user.id),
-    getJournalEntryCount(session.user.id),
-  ]);
-
-  if (profile.tier !== "premium" && savedCount >= FREE_SAVE_LIMIT) {
-    return NextResponse.json(
-      {
-        error: "save_limit_exceeded",
-        message: `무료 플랜은 최대 ${FREE_SAVE_LIMIT}개까지 저장할 수 있어요. 이전 기록을 삭제하거나 프리미엄으로 업그레이드해주세요.`,
-      },
-      { status: 403 }
     );
   }
 

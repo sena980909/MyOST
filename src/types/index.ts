@@ -48,11 +48,3 @@ export interface ApiError {
   message: string;
 }
 
-export interface UsageInfo {
-  used: number;
-  limit: number;
-  tier: string;
-  points: number;
-  savedCount: number;
-  saveLimit: number | null; // null = unlimited
-}
