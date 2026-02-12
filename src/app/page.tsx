@@ -155,20 +155,21 @@ export default function Home() {
             <AuthButton />
           </div>
 
-          <div className="cursor-pointer flex items-center justify-center gap-3" onClick={handleReset}>
+          <div className="cursor-pointer flex flex-col items-center" onClick={handleReset}>
             <Image
               src="/MyOST-icon.png"
-              alt=""
-              width={140}
-              height={140}
-              className="drop-shadow-sm"
+              alt="MyOST 마스코트"
+              width={260}
+              height={260}
+              className="drop-shadow-lg"
               priority
             />
             <Image
               src="/MyOST-Title.png"
               alt="MyOST"
-              width={350}
-              height={350}
+              width={180}
+              height={45}
+              className="mt-1"
               priority
             />
           </div>
