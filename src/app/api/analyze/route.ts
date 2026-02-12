@@ -10,12 +10,12 @@ export async function POST(request: NextRequest) {
     const userId = session?.user?.id ?? null;
     const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
 
-    const { allowed, remaining } = await checkRateLimit(userId, ip);
+    const { allowed, remaining, limit } = await checkRateLimit(userId, ip);
     if (!allowed) {
       return NextResponse.json(
         {
           error: "rate_limited",
-          message: "1시간에 3번까지 생성할 수 있어요. 잠시 후 다시 시도해주세요.",
+          message: `1시간에 ${limit}번까지 생성할 수 있어요. 잠시 후 다시 시도해주세요.`,
           remaining,
         },
         { status: 429 }

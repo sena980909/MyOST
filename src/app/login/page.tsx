@@ -86,21 +86,22 @@ export default function LoginPage() {
         className="w-full max-w-sm mx-auto px-4"
       >
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="flex justify-center mb-3">
             <Image
               src="/MyOST-icon.png"
-              alt=""
-              width={110}
-              height={110}
-              className="drop-shadow-sm"
-            />
-            <Image
-              src="/MyOST-Title.png"
-              alt="MyOST"
-              width={300}
-              height={300}
+              alt="MyOST 마스코트"
+              width={180}
+              height={180}
+              className="drop-shadow-md"
             />
           </div>
+          <Image
+            src="/MyOST-Title.png"
+            alt="MyOST"
+            width={160}
+            height={40}
+            className="mx-auto mb-3"
+          />
           <p className="text-[#8b7fa3] text-sm">
             {isSignUp
               ? "계정을 만들고 감정 기록을 시작하세요"
@@ -240,6 +241,14 @@ export default function LoginPage() {
               {benefit}
             </div>
           ))}
+        </div>
+
+        {/* Rate limit notice */}
+        <div className="mt-4 bg-purple-50/60 border border-purple-100 rounded-xl px-4 py-3">
+          <p className="text-[#8b7fa3] text-xs leading-relaxed">
+            일반 계정은 1시간에 <span className="font-semibold text-purple-500">3번</span>,
+            테스트 계정은 <span className="font-semibold text-purple-500">10번</span>까지 생성할 수 있어요.
+          </p>
         </div>
       </motion.div>
     </main>
