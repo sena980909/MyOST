@@ -161,17 +161,24 @@ export default function Home() {
             <AuthButton />
           </div>
 
-          <div className="cursor-pointer" onClick={handleReset}>
+          <div className="cursor-pointer flex items-center justify-center gap-3" onClick={handleReset}>
+            <Image
+              src="/MyOST-icon.png"
+              alt=""
+              width={64}
+              height={64}
+              className="drop-shadow-sm"
+              priority
+            />
             <Image
               src="/MyOST-Title.png"
               alt="MyOST"
-              width={200}
-              height={200}
-              className="mx-auto mb-2"
+              width={180}
+              height={180}
               priority
             />
           </div>
-          <p className="text-[#8b7fa3] text-lg md:text-xl">
+          <p className="text-[#8b7fa3] text-lg md:text-xl mt-2">
             당신의 감정에 맞는 음악을 찾아드립니다
           </p>
         </motion.header>

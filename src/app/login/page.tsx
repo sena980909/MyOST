@@ -21,13 +21,21 @@ export default function LoginPage() {
         className="w-full max-w-sm mx-auto px-4"
       >
         <div className="text-center mb-8">
-          <Image
-            src="/MyOST-Title.png"
-            alt="MyOST"
-            width={180}
-            height={180}
-            className="mx-auto mb-4"
-          />
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Image
+              src="/MyOST-icon.png"
+              alt=""
+              width={56}
+              height={56}
+              className="drop-shadow-sm"
+            />
+            <Image
+              src="/MyOST-Title.png"
+              alt="MyOST"
+              width={160}
+              height={160}
+            />
+          </div>
           <p className="text-[#8b7fa3] text-sm">
             로그인하고 감정 기록을 동기화하세요
           </p>
