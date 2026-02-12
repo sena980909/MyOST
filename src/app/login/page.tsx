@@ -90,9 +90,9 @@ export default function LoginPage() {
             <Image
               src="/MyOST-icon.png"
               alt="MyOST 마스코트"
-              width={180}
-              height={180}
-              className="drop-shadow-md"
+              width={260}
+              height={260}
+              className="drop-shadow-lg"
             />
           </div>
           <Image
