@@ -2,6 +2,24 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { getAdminClient } from "@/lib/supabase";
 
+const BADWORDS = [
+  // Korean
+  "시발", "씨발", "ㅅㅂ", "ㅆㅂ", "병신", "ㅂㅅ", "지랄", "ㅈㄹ",
+  "개새끼", "새끼", "ㅅㄲ", "미친", "좆", "ㅈ같", "꺼져", "닥쳐",
+  "썅", "엿먹어", "죽어", "ㄲㅈ", "년", "놈", "씹", "개같",
+  "걸레", "창녀", "한남", "한녀", "느금마", "니미", "애미",
+  // English
+  "fuck", "shit", "ass", "bitch", "dick", "pussy", "nigger", "nigga",
+  "cunt", "whore", "slut", "bastard", "damn", "cock", "penis",
+  // Admin impersonation
+  "admin", "관리자", "운영자", "myost", "시스템",
+];
+
+function containsBadWord(name: string): boolean {
+  const lower = name.toLowerCase().replace(/\s/g, "");
+  return BADWORDS.some((word) => lower.includes(word));
+}
+
 export async function POST(request: Request) {
   try {
     const { email, password, name } = await request.json();
@@ -29,26 +47,56 @@ export async function POST(request: Request) {
       );
     }
 
-    if (name.trim().length === 0) {
+    const trimmedName = name.trim();
+
+    if (trimmedName.length === 0) {
       return NextResponse.json(
         { error: "닉네임을 입력해주세요." },
         { status: 400 }
       );
     }
 
+    if (trimmedName.length < 2 || trimmedName.length > 20) {
+      return NextResponse.json(
+        { error: "닉네임은 2~20자여야 합니다." },
+        { status: 400 }
+      );
+    }
+
+    if (containsBadWord(trimmedName)) {
+      return NextResponse.json(
+        { error: "사용할 수 없는 닉네임입니다." },
+        { status: 400 }
+      );
+    }
+
     const supabase = getAdminClient();
 
-    // Check duplicate email for credentials provider
-    const { data: existing } = await supabase
+    // Check duplicate email
+    const { data: existingEmail } = await supabase
       .from("users")
       .select("id")
       .eq("email", email)
       .eq("provider", "credentials")
       .single();
 
-    if (existing) {
+    if (existingEmail) {
       return NextResponse.json(
         { error: "이미 가입된 이메일입니다." },
+        { status: 409 }
+      );
+    }
+
+    // Check duplicate nickname
+    const { data: existingName } = await supabase
+      .from("users")
+      .select("id")
+      .eq("name", trimmedName)
+      .single();
+
+    if (existingName) {
+      return NextResponse.json(
+        { error: "이미 사용 중인 닉네임입니다." },
         { status: 409 }
       );
     }
@@ -59,7 +107,7 @@ export async function POST(request: Request) {
     // Insert user
     const { error } = await supabase.from("users").insert({
       email,
-      name: name.trim(),
+      name: trimmedName,
       provider: "credentials",
       provider_account_id: email,
       password_hash: passwordHash,
