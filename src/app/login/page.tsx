@@ -102,8 +102,8 @@ export default function LoginPage() {
           />
           <p className="text-[#8b7fa3] text-sm">
             {isSignUp
-              ? "계정을 만들고 감정 기록을 시작하세요"
-              : "로그인하고 감정 기록을 동기화하세요"}
+              ? "계정을 만들고 내 삶의 OST를 기록하세요."
+              : "로그인하고 내 삶의 OST를 기록하세요."}
           </p>
         </div>
 
