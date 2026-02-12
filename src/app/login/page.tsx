@@ -85,14 +85,15 @@ export default function LoginPage() {
         transition={{ duration: 0.5 }}
         className="w-full max-w-sm mx-auto px-4"
       >
-        <div className="text-center mb-8">
-          <Image
-            src="/MyOST-Title.png"
-            alt="MyOST"
-            width={160}
-            height={40}
-            className="mx-auto mb-1"
-          />
+        <div className="mb-8">
+          <div className="mb-4">
+            <Image
+              src="/MyOST-Title.png"
+              alt="MyOST"
+              width={120}
+              height={30}
+            />
+          </div>
           <div className="flex justify-center mb-3">
             <Image
               src="/MyOST-icon.png"

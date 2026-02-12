@@ -1,24 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { getAdminClient } from "@/lib/supabase";
-
-const BADWORDS = [
-  // Korean
-  "시발", "씨발", "ㅅㅂ", "ㅆㅂ", "병신", "ㅂㅅ", "지랄", "ㅈㄹ",
-  "개새끼", "새끼", "ㅅㄲ", "미친", "좆", "ㅈ같", "꺼져", "닥쳐",
-  "썅", "엿먹어", "죽어", "ㄲㅈ", "년", "놈", "씹", "개같",
-  "걸레", "창녀", "한남", "한녀", "느금마", "니미", "애미",
-  // English
-  "fuck", "shit", "ass", "bitch", "dick", "pussy", "nigger", "nigga",
-  "cunt", "whore", "slut", "bastard", "damn", "cock", "penis",
-  // Admin impersonation
-  "admin", "관리자", "운영자", "myost", "시스템",
-];
-
-function containsBadWord(name: string): boolean {
-  const lower = name.toLowerCase().replace(/\s/g, "");
-  return BADWORDS.some((word) => lower.includes(word));
-}
+import { containsBadWord } from "@/lib/badwords";
 
 export async function POST(request: Request) {
   try {

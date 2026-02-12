@@ -151,19 +151,20 @@ export default function Home() {
           transition={{ duration: 0.6 }}
           className="text-center mb-8 relative"
         >
-          <div className="absolute right-0 top-0">
+          <div className="flex items-center justify-between mb-4">
+            <div className="cursor-pointer" onClick={handleReset}>
+              <Image
+                src="/MyOST-Title.png"
+                alt="MyOST"
+                width={120}
+                height={30}
+                priority
+              />
+            </div>
             <AuthButton />
           </div>
 
-          <div className="cursor-pointer flex flex-col items-center" onClick={handleReset}>
-            <Image
-              src="/MyOST-Title.png"
-              alt="MyOST"
-              width={180}
-              height={45}
-              className="mb-1"
-              priority
-            />
+          <div className="cursor-pointer flex justify-center" onClick={handleReset}>
             <Image
               src="/MyOST-icon.png"
               alt="MyOST 마스코트"

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { analyzeAndRecommend } from "@/lib/openai";
 import { auth } from "@/lib/auth";
 import { checkRateLimit, logGeneration } from "@/lib/db";
+import { containsBadWord } from "@/lib/badwords";
 
 export async function POST(request: NextRequest) {
   try {
@@ -36,6 +37,16 @@ export async function POST(request: NextRequest) {
         {
           error: "text_too_short",
           message: "조금 더 자세히 이야기해주세요. (최소 5자)",
+        },
+        { status: 400 }
+      );
+    }
+
+    if (containsBadWord(text)) {
+      return NextResponse.json(
+        {
+          error: "inappropriate_content",
+          message: "부적절한 표현이 포함되어 있어요. 감정을 다른 방식으로 표현해주세요.",
         },
         { status: 400 }
       );
