@@ -156,8 +156,8 @@ export default function Home() {
               <Image
                 src="/MyOST-Title.png"
                 alt="MyOST"
-                width={120}
-                height={30}
+                width={200}
+                height={50}
                 priority
               />
             </div>

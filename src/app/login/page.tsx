@@ -90,8 +90,8 @@ export default function LoginPage() {
             <Image
               src="/MyOST-Title.png"
               alt="MyOST"
-              width={120}
-              height={30}
+              width={200}
+              height={50}
             />
           </div>
           <div className="flex justify-center mb-3">
