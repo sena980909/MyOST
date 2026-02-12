@@ -9,8 +9,9 @@ CREATE TABLE users (
   email TEXT UNIQUE NOT NULL,
   name TEXT,
   image TEXT,
-  provider TEXT NOT NULL,
-  provider_account_id TEXT NOT NULL,
+  provider TEXT,
+  provider_account_id TEXT,
+  password_hash TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   UNIQUE(provider, provider_account_id)
@@ -53,6 +54,11 @@ CREATE TABLE usage_tracking (
   generation_count INT NOT NULL DEFAULT 0,
   UNIQUE(user_id, usage_date)
 );
+
+-- Migration: add email/password auth support
+-- ALTER TABLE users ADD COLUMN IF NOT EXISTS password_hash TEXT;
+-- ALTER TABLE users ALTER COLUMN provider DROP NOT NULL;
+-- ALTER TABLE users ALTER COLUMN provider_account_id DROP NOT NULL;
 
 -- Migration: run on existing DB to remove paid model columns/functions
 -- ALTER TABLE users DROP COLUMN IF EXISTS tier;

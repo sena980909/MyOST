@@ -3,8 +3,73 @@
 import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function LoginPage() {
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      if (isSignUp) {
+        const res = await fetch("/api/auth/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password, name }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          setError(data.error || "회원가입에 실패했습니다.");
+          setLoading(false);
+          return;
+        }
+
+        // Auto-login after signup
+        const result = await signIn("credentials", {
+          email,
+          password,
+          redirect: false,
+        });
+
+        if (result?.error) {
+          setError("회원가입 완료! 로그인해주세요.");
+          setIsSignUp(false);
+          setLoading(false);
+          return;
+        }
+
+        window.location.href = "/";
+      } else {
+        const result = await signIn("credentials", {
+          email,
+          password,
+          redirect: false,
+        });
+
+        if (result?.error) {
+          setError("이메일 또는 비밀번호가 올바르지 않습니다.");
+          setLoading(false);
+          return;
+        }
+
+        window.location.href = "/";
+      }
+    } catch {
+      setError("오류가 발생했습니다. 다시 시도해주세요.");
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="relative min-h-screen overflow-hidden flex items-center justify-center">
       {/* Pastel background */}
@@ -37,11 +102,79 @@ export default function LoginPage() {
             />
           </div>
           <p className="text-[#8b7fa3] text-sm">
-            로그인하고 감정 기록을 동기화하세요
+            {isSignUp
+              ? "계정을 만들고 감정 기록을 시작하세요"
+              : "로그인하고 감정 기록을 동기화하세요"}
           </p>
         </div>
 
-        <div className="bg-white/80 backdrop-blur-sm border border-purple-100 rounded-2xl p-6 space-y-3 shadow-sm">
+        <div className="bg-white/80 backdrop-blur-sm border border-purple-100 rounded-2xl p-6 shadow-sm">
+          {/* Email/Password Form */}
+          <form onSubmit={handleSubmit} className="space-y-3">
+            {isSignUp && (
+              <input
+                type="text"
+                placeholder="이름"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 text-sm placeholder-gray-400 focus:outline-none focus:border-purple-300 focus:ring-1 focus:ring-purple-200 transition-all"
+              />
+            )}
+            <input
+              type="email"
+              placeholder="이메일"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 text-sm placeholder-gray-400 focus:outline-none focus:border-purple-300 focus:ring-1 focus:ring-purple-200 transition-all"
+            />
+            <input
+              type="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 text-sm placeholder-gray-400 focus:outline-none focus:border-purple-300 focus:ring-1 focus:ring-purple-200 transition-all"
+            />
+
+            {error && (
+              <p className="text-red-500 text-xs px-1">{error}</p>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full px-4 py-3 bg-purple-500 text-white rounded-xl font-medium text-sm hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            >
+              {loading
+                ? "처리 중..."
+                : isSignUp
+                  ? "회원가입"
+                  : "로그인"}
+            </button>
+          </form>
+
+          {/* Toggle signup/login */}
+          <div className="text-center mt-3">
+            <button
+              type="button"
+              onClick={() => {
+                setIsSignUp(!isSignUp);
+                setError("");
+              }}
+              className="text-[#8b7fa3] text-xs hover:text-purple-600 transition-colors"
+            >
+              {isSignUp
+                ? "이미 계정이 있나요? 로그인"
+                : "계정이 없나요? 회원가입"}
+            </button>
+          </div>
+
+          {/* Divider */}
+          <div className="flex items-center gap-3 my-4">
+            <div className="flex-1 h-px bg-gray-200" />
+            <span className="text-xs text-gray-400">또는</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
+
           {/* Google */}
           <button
             onClick={() => signIn("google", { callbackUrl: "/" })}
@@ -67,7 +200,6 @@ export default function LoginPage() {
             </svg>
             Google로 계속하기
           </button>
-
         </div>
 
         <div className="mt-6 text-center">
