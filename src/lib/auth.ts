@@ -16,14 +16,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account }) {
+      if (!account || !user.email) return false;
+
       try {
-        if (!account || !user.email) {
-          console.error("SignIn: missing account or email", { account: !!account, email: user.email });
-          return false;
-        }
-
         const supabase = getAdminClient();
-
         const { error } = await supabase.from("users").upsert(
           {
             email: user.email,
@@ -38,14 +34,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (error) {
           console.error("User upsert error:", JSON.stringify(error));
-          return false;
+          // DB 실패해도 로그인은 허용 (세션은 유지, DB 동기화는 나중에)
         }
-
-        return true;
       } catch (err) {
         console.error("SignIn callback exception:", err);
-        return false;
       }
+
+      return true;
     },
 
     async jwt({ token, account }) {
