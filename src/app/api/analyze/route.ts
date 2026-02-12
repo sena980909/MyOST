@@ -32,11 +32,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (text.trim().length < 5) {
+    if (text.trim().length < 10) {
       return NextResponse.json(
         {
           error: "text_too_short",
-          message: "조금 더 자세히 이야기해주세요. (최소 5자)",
+          message: "조금 더 자세히 이야기해주세요. (최소 10자)",
         },
         { status: 400 }
       );

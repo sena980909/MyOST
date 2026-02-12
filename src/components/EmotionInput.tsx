@@ -25,7 +25,7 @@ export default function EmotionInput({
   const [text, setText] = useState("");
 
   const handleSubmit = () => {
-    if (text.trim().length >= 5 && !isLoading) {
+    if (text.trim().length >= 10 && !isLoading) {
       onSubmit(text.trim());
     }
   };
@@ -101,7 +101,7 @@ export default function EmotionInput({
       >
         <button
           onClick={handleSubmit}
-          disabled={text.trim().length < 5 || isLoading}
+          disabled={text.trim().length < 10 || isLoading}
           className="group relative px-8 py-4 bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300
                      rounded-full text-white font-medium text-lg
                      hover:from-pink-400 hover:via-purple-400 hover:to-blue-400
