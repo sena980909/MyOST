@@ -243,13 +243,6 @@ export default function LoginPage() {
           ))}
         </div>
 
-        {/* Rate limit notice */}
-        <div className="mt-4 bg-purple-50/60 border border-purple-100 rounded-xl px-4 py-3">
-          <p className="text-[#8b7fa3] text-xs leading-relaxed">
-            일반 계정은 1시간에 <span className="font-semibold text-purple-500">3번</span>,
-            테스트 계정은 <span className="font-semibold text-purple-500">10번</span>까지 생성할 수 있어요.
-          </p>
-        </div>
       </motion.div>
     </main>
   );

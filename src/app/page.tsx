@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import EmotionInput from "@/components/EmotionInput";
@@ -30,6 +31,9 @@ export default function Home() {
   const [localEntriesForMigration, setLocalEntriesForMigration] = useState<
     JournalEntry[]
   >([]);
+
+  const { data: session } = useSession();
+  const isTestAccount = session?.user?.email === "test@myost.com";
 
   const {
     entries: journalEntries,
@@ -262,6 +266,14 @@ export default function Home() {
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.3 }}
                   >
+                    {isTestAccount && (
+                      <div className="max-w-2xl mx-auto mb-4 bg-purple-50/60 border border-purple-100 rounded-xl px-4 py-3 text-center">
+                        <p className="text-[#8b7fa3] text-xs leading-relaxed">
+                          일반 계정은 1시간에 <span className="font-semibold text-purple-500">3번</span>,
+                          테스트 계정은 <span className="font-semibold text-purple-500">10번</span>까지 생성할 수 있어요.
+                        </p>
+                      </div>
+                    )}
                     <EmotionInput onSubmit={handleSubmit} isLoading={false} />
                   </motion.div>
                 )}
