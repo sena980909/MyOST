@@ -33,7 +33,11 @@ export async function analyzeAndRecommend(text: string): Promise<EmotionAnalysis
 추천 가이드:
 - 정확히 10곡을 추천하세요
 - 한국 곡과 해외 곡을 적절히 섞어주세요
-- YouTube Music에서 실제로 검색 가능한 곡들만 추천하세요
+- ⚠️ 가장 중요: 반드시 실제로 존재하는 곡만 추천하세요. 곡을 지어내지 마세요!
+- 곡 제목은 실제 발매된 공식 제목 그대로 사용하세요. 번역하거나 변형하지 마세요
+- 아티스트명도 공식 활동명을 정확히 사용하세요 (예: "아이유" O, "IU" O, "이지은" X)
+- 확신이 없는 곡보다는 잘 알려진 정확한 곡을 추천하세요
+- 곡 제목과 아티스트의 조합이 정확한지 반드시 확인하세요 (다른 아티스트의 곡과 혼동하지 마세요)
 - 감정의 뉘앙스에 맞는 곡을 선택하세요 (단순 키워드 매칭이 아닌 분위기/무드 매칭)
 - 너무 유명한 곡만 추천하지 말고, 숨겨진 명곡도 섞어주세요
 - 선곡 이유는 청취자의 감정과 곡의 분위기를 연결하여 시적이고 감성적으로 작성하세요
@@ -52,7 +56,7 @@ export async function analyzeAndRecommend(text: string): Promise<EmotionAnalysis
         content: text,
       },
     ],
-    temperature: 0.8,
+    temperature: 0.6,
     response_format: { type: "json_object" },
   });
 
