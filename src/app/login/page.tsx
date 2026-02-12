@@ -86,6 +86,13 @@ export default function LoginPage() {
         className="w-full max-w-sm mx-auto px-4"
       >
         <div className="text-center mb-8">
+          <Image
+            src="/MyOST-Title.png"
+            alt="MyOST"
+            width={160}
+            height={40}
+            className="mx-auto mb-1"
+          />
           <div className="flex justify-center mb-3">
             <Image
               src="/MyOST-icon.png"
@@ -95,13 +102,6 @@ export default function LoginPage() {
               className="drop-shadow-lg"
             />
           </div>
-          <Image
-            src="/MyOST-Title.png"
-            alt="MyOST"
-            width={160}
-            height={40}
-            className="mx-auto mb-3"
-          />
           <p className="text-[#8b7fa3] text-sm">
             {isSignUp
               ? "계정을 만들고 감정 기록을 시작하세요"

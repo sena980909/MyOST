@@ -157,19 +157,19 @@ export default function Home() {
 
           <div className="cursor-pointer flex flex-col items-center" onClick={handleReset}>
             <Image
+              src="/MyOST-Title.png"
+              alt="MyOST"
+              width={180}
+              height={45}
+              className="mb-1"
+              priority
+            />
+            <Image
               src="/MyOST-icon.png"
               alt="MyOST 마스코트"
               width={260}
               height={260}
               className="drop-shadow-lg"
-              priority
-            />
-            <Image
-              src="/MyOST-Title.png"
-              alt="MyOST"
-              width={180}
-              height={45}
-              className="mt-1"
               priority
             />
           </div>
