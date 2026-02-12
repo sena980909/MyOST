@@ -115,7 +115,7 @@ export default function LoginPage() {
             {isSignUp && (
               <input
                 type="text"
-                placeholder="이름"
+                placeholder="닉네임"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 text-sm placeholder-gray-400 focus:outline-none focus:border-purple-300 focus:ring-1 focus:ring-purple-200 transition-all"

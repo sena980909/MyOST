@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     // Validation
     if (!email || !password || !name) {
       return NextResponse.json(
-        { error: "이메일, 비밀번호, 이름을 모두 입력해주세요." },
+        { error: "이메일, 비밀번호, 닉네임을 모두 입력해주세요." },
         { status: 400 }
       );
     }
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
 
     if (name.trim().length === 0) {
       return NextResponse.json(
-        { error: "이름을 입력해주세요." },
+        { error: "닉네임을 입력해주세요." },
         { status: 400 }
       );
     }
