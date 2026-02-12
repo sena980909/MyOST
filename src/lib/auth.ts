@@ -16,28 +16,36 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account }) {
-      if (!account || !user.email) return false;
+      try {
+        if (!account || !user.email) {
+          console.error("SignIn: missing account or email", { account: !!account, email: user.email });
+          return false;
+        }
 
-      const supabase = getAdminClient();
+        const supabase = getAdminClient();
 
-      const { error } = await supabase.from("users").upsert(
-        {
-          email: user.email,
-          name: user.name ?? null,
-          image: user.image ?? null,
-          provider: account.provider,
-          provider_account_id: account.providerAccountId,
-          updated_at: new Date().toISOString(),
-        },
-        { onConflict: "provider,provider_account_id" }
-      );
+        const { error } = await supabase.from("users").upsert(
+          {
+            email: user.email,
+            name: user.name ?? null,
+            image: user.image ?? null,
+            provider: account.provider,
+            provider_account_id: account.providerAccountId,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: "provider,provider_account_id" }
+        );
 
-      if (error) {
-        console.error("User upsert error:", error);
+        if (error) {
+          console.error("User upsert error:", JSON.stringify(error));
+          return false;
+        }
+
+        return true;
+      } catch (err) {
+        console.error("SignIn callback exception:", err);
         return false;
       }
-
-      return true;
     },
 
     async jwt({ token, account }) {
