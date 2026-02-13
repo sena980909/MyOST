@@ -141,10 +141,10 @@ export default function Home() {
     <main className="relative min-h-screen overflow-hidden">
       {/* Pastel background orbs */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-pink-200/40 dark:bg-pink-900/20 rounded-full blur-[128px]" />
-        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-200/40 dark:bg-blue-900/20 rounded-full blur-[128px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-200/30 dark:bg-purple-900/20 rounded-full blur-[128px]" />
-        <div className="absolute top-0 right-1/4 w-72 h-72 bg-yellow-100/30 dark:bg-yellow-900/10 rounded-full blur-[100px]" />
+        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-pink-200/40 rounded-full blur-[128px]" />
+        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-200/40 rounded-full blur-[128px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-200/30 rounded-full blur-[128px]" />
+        <div className="absolute top-0 right-1/4 w-72 h-72 bg-yellow-100/30 rounded-full blur-[100px]" />
       </div>
 
       <div className="container mx-auto px-4 py-8 md:py-16 pb-20">
@@ -178,7 +178,7 @@ export default function Home() {
               priority
             />
           </div>
-          <p className="text-[#8b7fa3] dark:text-[#c4b5e0] text-lg md:text-xl mt-2">
+          <p className="text-[#8b7fa3] text-lg md:text-xl mt-2">
             당신의 감정에 맞는 음악을 찾아드립니다
           </p>
         </motion.header>
@@ -209,8 +209,8 @@ export default function Home() {
             }}
             className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
               tab === "new"
-                ? "bg-white/80 dark:bg-purple-800/60 text-[#6b5b8a] dark:text-white border border-purple-200 dark:border-purple-500 shadow-sm"
-                : "text-[#8b7fa3] dark:text-purple-300 hover:text-[#6b5b8a] dark:hover:text-white"
+                ? "bg-white/80 text-[#6b5b8a] border border-purple-200 shadow-sm"
+                : "text-[#8b7fa3] hover:text-[#6b5b8a]"
             }`}
           >
             오늘의 OST
@@ -219,13 +219,13 @@ export default function Home() {
             onClick={() => setTab("journal")}
             className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
               tab === "journal"
-                ? "bg-white/80 dark:bg-purple-800/60 text-[#6b5b8a] dark:text-white border border-purple-200 dark:border-purple-500 shadow-sm"
-                : "text-[#8b7fa3] dark:text-purple-300 hover:text-[#6b5b8a] dark:hover:text-white"
+                ? "bg-white/80 text-[#6b5b8a] border border-purple-200 shadow-sm"
+                : "text-[#8b7fa3] hover:text-[#6b5b8a]"
             }`}
           >
             내 기록
             {journalEntries.length > 0 && (
-              <span className="bg-purple-100 dark:bg-purple-700/60 text-purple-500 dark:text-purple-200 text-xs px-1.5 py-0.5 rounded-full">
+              <span className="bg-purple-100 text-purple-500 text-xs px-1.5 py-0.5 rounded-full">
                 {journalEntries.length}
               </span>
             )}
@@ -273,7 +273,7 @@ export default function Home() {
                     transition={{ duration: 0.3 }}
                   >
                     {isTestAccount && (
-                      <div className="max-w-2xl mx-auto mb-4 bg-purple-50/60 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800 rounded-xl px-4 py-3 text-center">
+                      <div className="max-w-2xl mx-auto mb-4 bg-purple-50/60 border border-purple-100 rounded-xl px-4 py-3 text-center">
                         <p className="text-[#8b7fa3] text-xs leading-relaxed">
                           일반 계정은 1시간에 <span className="font-semibold text-purple-500">3번</span>,
                           테스트 계정은 <span className="font-semibold text-purple-500">10번</span>까지 생성할 수 있어요.
@@ -305,13 +305,13 @@ export default function Home() {
                     className="text-center py-20"
                   >
                     <div className="text-6xl mb-4">:(</div>
-                    <p className="text-[#6b5b8a] dark:text-[#c4b5e0] text-lg mb-6">
+                    <p className="text-[#6b5b8a] text-lg mb-6">
                       {errorMessage}
                     </p>
                     <button
                       onClick={handleReset}
-                      className="px-6 py-3 bg-white/80 dark:bg-purple-700/50 border border-purple-200 dark:border-purple-500 rounded-full
-                                 text-[#6b5b8a] dark:text-white hover:bg-white dark:hover:bg-purple-600/60 hover:shadow-sm transition-all duration-200"
+                      className="px-6 py-3 bg-white/80 border border-purple-200 rounded-full
+                                 text-[#6b5b8a] hover:bg-white hover:shadow-sm transition-all duration-200"
                     >
                       다시 시도하기
                     </button>
@@ -332,7 +332,7 @@ export default function Home() {
                     />
 
                     <div className="w-full max-w-2xl mx-auto space-y-3">
-                      <h2 className="text-[#8b7fa3] dark:text-[#c4b5e0] text-sm font-medium uppercase tracking-wider mb-4 px-2">
+                      <h2 className="text-[#8b7fa3] text-sm font-medium uppercase tracking-wider mb-4 px-2">
                         Your Playlist
                       </h2>
                       {result.tracks.map((track, index) => (
@@ -357,7 +357,7 @@ export default function Home() {
                         transition={{ delay: 1.0 }}
                         className="w-full max-w-2xl mx-auto mt-6"
                       >
-                        <label className="block text-[#8b7fa3] dark:text-purple-300 text-sm font-medium mb-2 px-2">
+                        <label className="block text-[#8b7fa3] text-sm font-medium mb-2 px-2">
                           오늘의 일기 (선택)
                         </label>
                         <textarea
@@ -365,13 +365,13 @@ export default function Home() {
                           onChange={(e) => setDiary(e.target.value.slice(0, 500))}
                           placeholder="오늘 하루를 기록해보세요..."
                           rows={4}
-                          className="w-full bg-white/70 dark:bg-white/10 backdrop-blur-sm border border-purple-100 dark:border-purple-600 rounded-2xl px-5 py-4
-                                     text-[#4a4458] dark:text-white placeholder-[#c4b5e0] dark:placeholder-purple-400 text-sm resize-none
-                                     focus:outline-none focus:border-purple-300 dark:focus:border-purple-400 focus:ring-2 focus:ring-purple-200/50
+                          className="w-full bg-white/70 backdrop-blur-sm border border-purple-100 rounded-2xl px-5 py-4
+                                     text-[#4a4458] placeholder-[#c4b5e0] text-sm resize-none
+                                     focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-200/50
                                      transition-all duration-300 shadow-sm"
                         />
                         <div className="text-right mt-1 px-2">
-                          <span className={`text-xs ${diary.length >= 500 ? "text-rose-400" : "text-[#c4b5e0] dark:text-purple-400"}`}>
+                          <span className={`text-xs ${diary.length >= 500 ? "text-rose-400" : "text-[#c4b5e0]"}`}>
                             {diary.length}/500
                           </span>
                         </div>
@@ -390,8 +390,8 @@ export default function Home() {
                         disabled={saved}
                         className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
                           saved
-                            ? "bg-green-50 dark:bg-green-800/40 border border-green-200 dark:border-green-500 text-green-600 dark:text-green-300"
-                            : "bg-purple-50 dark:bg-purple-700/40 border border-purple-200 dark:border-purple-500 text-purple-600 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-600/50"
+                            ? "bg-green-50 border border-green-200 text-green-600"
+                            : "bg-purple-50 border border-purple-200 text-purple-600 hover:bg-purple-100"
                         }`}
                       >
                         {saved ? "기록 완료!" : "오늘의 기록으로 저장"}
@@ -399,8 +399,8 @@ export default function Home() {
 
                       <button
                         onClick={handleReset}
-                        className="px-6 py-3 bg-white/60 dark:bg-purple-800/40 border border-purple-100 dark:border-purple-500 rounded-full
-                                   text-[#8b7fa3] dark:text-purple-200 hover:text-[#6b5b8a] dark:hover:text-white hover:bg-white/80 dark:hover:bg-purple-700/50
+                        className="px-6 py-3 bg-white/60 border border-purple-100 rounded-full
+                                   text-[#8b7fa3] hover:text-[#6b5b8a] hover:bg-white/80
                                    transition-all duration-200 text-sm"
                       >
                         새로운 이야기 들려주기
@@ -415,8 +415,8 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <footer className="fixed bottom-0 left-0 right-0 py-4 text-center bg-gradient-to-t from-[#f8f5ff] dark:from-[#1a1625] to-transparent">
-        <p className="text-[#c4b5e0] dark:text-[#6b5b8a] text-xs">
+      <footer className="fixed bottom-0 left-0 right-0 py-4 text-center bg-gradient-to-t from-[#f8f5ff] to-transparent">
+        <p className="text-[#c4b5e0] text-xs">
           Powered by OpenAI & YouTube Music
         </p>
       </footer>

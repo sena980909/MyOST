@@ -54,9 +54,9 @@ export default function EmotionInput({
           placeholder="오늘 당신의 이야기를 들려주세요..."
           disabled={isLoading}
           rows={4}
-          className="w-full bg-white/70 dark:bg-white/10 backdrop-blur-sm border border-purple-100 dark:border-purple-600 rounded-2xl px-6 py-4
-                     text-[#4a4458] dark:text-white placeholder-[#c4b5e0] dark:placeholder-purple-400 text-lg resize-none
-                     focus:outline-none focus:border-purple-300 dark:focus:border-purple-400 focus:ring-2 focus:ring-purple-200/50
+          className="w-full bg-white/70 backdrop-blur-sm border border-purple-100 rounded-2xl px-6 py-4
+                     text-[#4a4458] placeholder-[#c4b5e0] text-lg resize-none
+                     focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-200/50
                      transition-all duration-300 disabled:opacity-50 shadow-sm"
         />
         <div className="flex justify-between items-center mt-2 px-2">
@@ -84,8 +84,8 @@ export default function EmotionInput({
             transition={{ delay: 0.4 + index * 0.1 }}
             onClick={() => setText(prompt)}
             disabled={isLoading}
-            className="px-3 py-1.5 text-xs bg-white/60 dark:bg-purple-800/40 border border-purple-100 dark:border-purple-600 rounded-full
-                       text-[#8b7fa3] dark:text-purple-200 hover:text-[#6b5b8a] dark:hover:text-white hover:bg-white/80 dark:hover:bg-purple-700/50 hover:border-purple-200
+            className="px-3 py-1.5 text-xs bg-white/60 border border-purple-100 rounded-full
+                       text-[#8b7fa3] hover:text-[#6b5b8a] hover:bg-white/80 hover:border-purple-200
                        transition-all duration-200 disabled:opacity-30"
           >
             {prompt}
@@ -103,11 +103,10 @@ export default function EmotionInput({
           onClick={handleSubmit}
           disabled={text.trim().length < 10 || isLoading}
           className="group relative px-8 py-4 bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300
-                     dark:from-pink-500 dark:via-purple-500 dark:to-blue-500
                      rounded-full text-white font-medium text-lg
                      hover:from-pink-400 hover:via-purple-400 hover:to-blue-400
                      disabled:opacity-30 disabled:cursor-not-allowed
-                     transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-200/50 dark:hover:shadow-purple-800/50"
+                     transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-200/50"
         >
           <span className="relative z-10">
             {isLoading ? "분석 중..." : "내 OST 찾기"}

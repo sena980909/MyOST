@@ -40,7 +40,7 @@ export default function MigrationPrompt({
         exit={{ opacity: 0, y: -10 }}
         className="w-full max-w-2xl mx-auto mb-4"
       >
-        <div className="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-xl px-4 py-3">
+        <div className="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3">
           {result !== null ? (
             <p className="text-blue-600 text-sm text-center">
               {result}개의 기록이 클라우드로 이전되었어요!

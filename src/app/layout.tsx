@@ -33,11 +33,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#e8dff5" },
-    { media: "(prefers-color-scheme: dark)", color: "#1a1625" },
-  ],
-  colorScheme: "light dark",
+  themeColor: "#e8dff5",
+  colorScheme: "only light",
 };
 
 export default function RootLayout({
@@ -55,7 +52,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#f8f5ff] dark:bg-[#1a1625] min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#f8f5ff] min-h-screen`}
       >
         <SessionProvider>{children}</SessionProvider>
       </body>

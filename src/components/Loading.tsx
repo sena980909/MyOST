@@ -58,7 +58,7 @@ export default function Loading() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.4 }}
-          className="text-[#6b5b8a] dark:text-[#c4b5e0] text-lg"
+          className="text-[#6b5b8a] text-lg"
         >
           {LOADING_MESSAGES[messageIndex]}
         </motion.p>
@@ -72,7 +72,7 @@ export default function Loading() {
             className={`w-2 h-2 rounded-full transition-all duration-500 ${
               i <= messageIndex
                 ? "bg-purple-400 scale-100"
-                : "bg-purple-200 dark:bg-purple-800 scale-75"
+                : "bg-purple-200 scale-75"
             }`}
           />
         ))}
