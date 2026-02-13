@@ -2,15 +2,22 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { getAdminClient } from "@/lib/supabase";
 import { containsBadWord } from "@/lib/badwords";
+import { Lang, getTranslations } from "@/lib/i18n";
 
 export async function POST(request: Request) {
   try {
-    const { email, password, name } = await request.json();
+    const { email, password, name, lang = "ko" } = await request.json() as {
+      email: string;
+      password: string;
+      name: string;
+      lang?: Lang;
+    };
+    const t = getTranslations(lang === "en" ? "en" : "ko");
 
     // Validation
     if (!email || !password || !name) {
       return NextResponse.json(
-        { error: "이메일, 비밀번호, 닉네임을 모두 입력해주세요." },
+        { error: t.signup.allRequired },
         { status: 400 }
       );
     }
@@ -18,14 +25,14 @@ export async function POST(request: Request) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
-        { error: "올바른 이메일 형식이 아닙니다." },
+        { error: t.signup.invalidEmail },
         { status: 400 }
       );
     }
 
     if (password.length < 6) {
       return NextResponse.json(
-        { error: "비밀번호는 6자 이상이어야 합니다." },
+        { error: t.signup.shortPassword },
         { status: 400 }
       );
     }
@@ -34,21 +41,21 @@ export async function POST(request: Request) {
 
     if (trimmedName.length === 0) {
       return NextResponse.json(
-        { error: "닉네임을 입력해주세요." },
+        { error: t.signup.nameRequired },
         { status: 400 }
       );
     }
 
     if (trimmedName.length < 2 || trimmedName.length > 20) {
       return NextResponse.json(
-        { error: "닉네임은 2~20자여야 합니다." },
+        { error: t.signup.nameLength },
         { status: 400 }
       );
     }
 
     if (containsBadWord(trimmedName)) {
       return NextResponse.json(
-        { error: "사용할 수 없는 닉네임입니다." },
+        { error: t.signup.nameBadWord },
         { status: 400 }
       );
     }
@@ -65,7 +72,7 @@ export async function POST(request: Request) {
 
     if (existingEmail) {
       return NextResponse.json(
-        { error: "이미 가입된 이메일입니다." },
+        { error: t.signup.emailExists },
         { status: 409 }
       );
     }
@@ -79,7 +86,7 @@ export async function POST(request: Request) {
 
     if (existingName) {
       return NextResponse.json(
-        { error: "이미 사용 중인 닉네임입니다." },
+        { error: t.signup.nameExists },
         { status: 409 }
       );
     }
@@ -100,12 +107,12 @@ export async function POST(request: Request) {
       console.error("Signup insert error:", error);
       if (error.code === "23505") {
         return NextResponse.json(
-          { error: "이미 가입된 이메일입니다." },
+          { error: t.signup.emailExists },
           { status: 409 }
         );
       }
       return NextResponse.json(
-        { error: "회원가입 중 오류가 발생했습니다." },
+        { error: t.signup.signupError },
         { status: 500 }
       );
     }
@@ -114,7 +121,7 @@ export async function POST(request: Request) {
   } catch (err) {
     console.error("Signup error:", err);
     return NextResponse.json(
-      { error: "서버 오류가 발생했습니다." },
+      { error: "A server error occurred." },
       { status: 500 }
     );
   }

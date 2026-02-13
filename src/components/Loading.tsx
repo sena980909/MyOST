@@ -2,26 +2,20 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const LOADING_MESSAGES = [
-  "감정을 읽고 있어요...",
-  "당신의 이야기에 귀 기울이는 중...",
-  "어울리는 음악을 찾고 있어요...",
-  "당신만의 OST를 준비하고 있어요...",
-  "거의 다 됐어요...",
-];
+import { useLanguage } from "./LanguageProvider";
 
 export default function Loading() {
+  const { t } = useLanguage();
   const [messageIndex, setMessageIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setMessageIndex((prev) =>
-        prev < LOADING_MESSAGES.length - 1 ? prev + 1 : prev
+        prev < t.loading.length - 1 ? prev + 1 : prev
       );
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [t.loading.length]);
 
   return (
     <motion.div
@@ -60,13 +54,13 @@ export default function Loading() {
           transition={{ duration: 0.4 }}
           className="text-[#6b5b8a] dark:text-purple-200 text-lg"
         >
-          {LOADING_MESSAGES[messageIndex]}
+          {t.loading[messageIndex]}
         </motion.p>
       </AnimatePresence>
 
       {/* Progress dots */}
       <div className="flex gap-2 mt-6">
-        {LOADING_MESSAGES.map((_, i) => (
+        {t.loading.map((_, i) => (
           <div
             key={i}
             className={`w-2 h-2 rounded-full transition-all duration-500 ${

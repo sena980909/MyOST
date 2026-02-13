@@ -3,9 +3,13 @@ import { analyzeAndRecommend } from "@/lib/openai";
 import { auth } from "@/lib/auth";
 import { checkRateLimit, logGeneration } from "@/lib/db";
 import { containsBadWord } from "@/lib/badwords";
+import { Lang, getTranslations } from "@/lib/i18n";
 
 export async function POST(request: NextRequest) {
   try {
+    const { text, lang = "ko" } = await request.json() as { text: string; lang?: Lang };
+    const t = getTranslations(lang === "en" ? "en" : "ko");
+
     // Rate limiting
     const session = await auth();
     const userId = session?.user?.id ?? null;
@@ -16,18 +20,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: "rate_limited",
-          message: `1시간에 ${limit}번까지 생성할 수 있어요. 잠시 후 다시 시도해주세요.`,
+          message: t.api.rateLimit(limit),
           remaining,
         },
         { status: 429 }
       );
     }
 
-    const { text } = await request.json();
-
     if (!text || typeof text !== "string") {
       return NextResponse.json(
-        { error: "invalid_input", message: "텍스트를 입력해주세요." },
+        { error: "invalid_input", message: t.api.inputRequired },
         { status: 400 }
       );
     }
@@ -36,7 +38,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: "text_too_short",
-          message: "조금 더 자세히 이야기해주세요. (최소 10자)",
+          message: t.api.tooShort,
         },
         { status: 400 }
       );
@@ -46,13 +48,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: "inappropriate_content",
-          message: "부적절한 표현이 포함되어 있어요. 감정을 다른 방식으로 표현해주세요.",
+          message: t.api.inappropriate,
         },
         { status: 400 }
       );
     }
 
-    const analysis = await analyzeAndRecommend(text);
+    const analysis = await analyzeAndRecommend(text, lang === "en" ? "en" : "ko");
 
     // Log successful generation
     await logGeneration(userId, ip);
@@ -63,7 +65,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: "analysis_failed",
-        message: "감정 분석 중 오류가 발생했어요. 다시 시도해주세요.",
+        message: "Emotion analysis failed. Please try again.",
       },
       { status: 500 }
     );

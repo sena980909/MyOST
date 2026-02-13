@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { JournalEntry } from "@/types";
 import { formatDate, formatTime } from "@/lib/journal-local";
 import { useState } from "react";
+import { useLanguage } from "./LanguageProvider";
 
 interface JournalTimelineProps {
   entries: JournalEntry[];
@@ -18,6 +19,7 @@ export default function JournalTimeline({
   onEntriesChange,
   onDelete,
 }: JournalTimelineProps) {
+  const { t } = useLanguage();
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   if (entries.length === 0) {
@@ -29,9 +31,9 @@ export default function JournalTimeline({
       >
         <div className="text-4xl mb-4 opacity-30">&#9835;</div>
         <p className="text-[#c4b5e0] dark:text-purple-400 text-sm">
-          아직 기록이 없어요.
+          {t.journal.empty1}
           <br />
-          오늘의 이야기를 들려주세요.
+          {t.journal.empty2}
         </p>
       </motion.div>
     );
@@ -96,7 +98,7 @@ export default function JournalTimeline({
                     <button
                       onClick={() => handleDelete(entry.id)}
                       className="text-[#c4b5e0] dark:text-purple-400 hover:text-rose-400 transition-colors p-1"
-                      title="삭제"
+                      title={t.journal.delete}
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -170,15 +172,15 @@ export default function JournalTimeline({
                       className="text-xs text-[#8b7fa3] dark:text-purple-300 hover:text-[#6b5b8a] dark:hover:text-purple-200 transition-colors"
                     >
                       {expandedId === entry.id
-                        ? "플레이리스트 접기"
-                        : "플레이리스트 보기"}
+                        ? t.journal.collapse
+                        : t.journal.expand}
                     </button>
                     <span className="text-purple-200 dark:text-purple-800">|</span>
                     <button
                       onClick={() => onReRecommend(entry)}
                       className="text-xs text-pink-400/60 dark:text-pink-400/80 hover:text-pink-500 dark:hover:text-pink-400 transition-colors"
                     >
-                      새로운 추천 받기
+                      {t.journal.reRecommend}
                     </button>
                   </div>
                 </motion.div>

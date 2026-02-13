@@ -5,8 +5,10 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export default function LoginPage() {
+  const { lang, t } = useLanguage();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,13 +26,13 @@ export default function LoginPage() {
         const res = await fetch("/api/signup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password, name }),
+          body: JSON.stringify({ email, password, name, lang }),
         });
 
         const data = await res.json();
 
         if (!res.ok) {
-          setError(data.error || "회원가입에 실패했습니다.");
+          setError(data.error || t.login.errors.signupFailed);
           setLoading(false);
           return;
         }
@@ -43,7 +45,7 @@ export default function LoginPage() {
         });
 
         if (result?.error) {
-          setError("회원가입 완료! 로그인해주세요.");
+          setError(t.login.errors.signupDoneLogin);
           setIsSignUp(false);
           setLoading(false);
           return;
@@ -58,7 +60,7 @@ export default function LoginPage() {
         });
 
         if (result?.error) {
-          setError("이메일 또는 비밀번호가 올바르지 않습니다.");
+          setError(t.login.errors.invalidCredentials);
           setLoading(false);
           return;
         }
@@ -66,7 +68,7 @@ export default function LoginPage() {
         window.location.href = "/";
       }
     } catch {
-      setError("오류가 발생했습니다. 다시 시도해주세요.");
+      setError(t.login.errors.genericError);
       setLoading(false);
     }
   };
@@ -104,9 +106,7 @@ export default function LoginPage() {
             className="mx-auto drop-shadow-lg rounded-full mb-3"
           />
           <p className="text-[#8b7fa3] dark:text-purple-300 text-sm">
-            {isSignUp
-              ? "계정을 만들고 내 삶의 OST를 기록하세요."
-              : "로그인하고 내 삶의 OST를 기록하세요."}
+            {isSignUp ? t.login.signupTagline : t.login.loginTagline}
           </p>
         </div>
 
@@ -116,7 +116,7 @@ export default function LoginPage() {
             {isSignUp && (
               <input
                 type="text"
-                placeholder="닉네임"
+                placeholder={t.login.nickname}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-gray-200 dark:border-purple-800 rounded-xl text-gray-700 dark:text-gray-100 text-sm placeholder-gray-400 dark:placeholder-purple-500 focus:outline-none focus:border-purple-300 dark:focus:border-purple-600 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-700 transition-all"
@@ -124,14 +124,14 @@ export default function LoginPage() {
             )}
             <input
               type="email"
-              placeholder="이메일"
+              placeholder={t.login.email}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-gray-200 dark:border-purple-800 rounded-xl text-gray-700 dark:text-gray-100 text-sm placeholder-gray-400 dark:placeholder-purple-500 focus:outline-none focus:border-purple-300 dark:focus:border-purple-600 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-700 transition-all"
             />
             <input
               type="password"
-              placeholder="비밀번호"
+              placeholder={t.login.password}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-gray-200 dark:border-purple-800 rounded-xl text-gray-700 dark:text-gray-100 text-sm placeholder-gray-400 dark:placeholder-purple-500 focus:outline-none focus:border-purple-300 dark:focus:border-purple-600 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-700 transition-all"
@@ -147,10 +147,10 @@ export default function LoginPage() {
               className="w-full px-4 py-3 bg-purple-500 dark:bg-purple-600 text-white rounded-xl font-medium text-sm hover:bg-purple-600 dark:hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               {loading
-                ? "처리 중..."
+                ? t.login.processing
                 : isSignUp
-                  ? "회원가입"
-                  : "로그인"}
+                  ? t.login.signup
+                  : t.login.login}
             </button>
           </form>
 
@@ -164,16 +164,14 @@ export default function LoginPage() {
               }}
               className="text-[#8b7fa3] dark:text-purple-300 text-xs hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
             >
-              {isSignUp
-                ? "이미 계정이 있나요? 로그인"
-                : "계정이 없나요? 회원가입"}
+              {isSignUp ? t.login.hasAccount : t.login.noAccount}
             </button>
           </div>
 
           {/* Divider */}
           <div className="flex items-center gap-3 my-4">
             <div className="flex-1 h-px bg-gray-200 dark:bg-purple-800" />
-            <span className="text-xs text-gray-400 dark:text-purple-400">또는</span>
+            <span className="text-xs text-gray-400 dark:text-purple-400">{t.login.or}</span>
             <div className="flex-1 h-px bg-gray-200 dark:bg-purple-800" />
           </div>
 
@@ -200,7 +198,7 @@ export default function LoginPage() {
                 fill="#EA4335"
               />
             </svg>
-            Google로 계속하기
+            {t.login.googleContinue}
           </button>
         </div>
 
@@ -209,19 +207,16 @@ export default function LoginPage() {
             href="/"
             className="text-[#c4b5e0] dark:text-purple-400 text-xs hover:text-[#8b7fa3] dark:hover:text-purple-300 transition-colors"
           >
-            로그인 없이 사용하기
+            {t.login.withoutLogin}
           </a>
         </div>
 
         {/* Benefits */}
         <div className="mt-8 space-y-2">
           <p className="text-[#c4b5e0] dark:text-purple-400 text-xs text-center mb-3">
-            로그인하면 이런 것들이 가능해요
+            {t.login.benefitsTitle}
           </p>
-          {[
-            "모든 기기에서 감정 기록 동기화",
-            "감정 기록 영구 보관",
-          ].map((benefit) => (
+          {t.login.benefits.map((benefit) => (
             <div
               key={benefit}
               className="flex items-center gap-2 text-[#8b7fa3] dark:text-purple-300 text-xs"

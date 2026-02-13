@@ -14,6 +14,8 @@ import AdBanner from "@/components/AdBanner";
 import MigrationPrompt from "@/components/MigrationPrompt";
 import ThemeToggle from "@/components/ThemeToggle";
 import BgmPlayer from "@/components/BgmPlayer";
+import LanguageToggle from "@/components/LanguageToggle";
+import { useLanguage } from "@/components/LanguageProvider";
 import { EmotionAnalysis, PlaylistResult, JournalEntry } from "@/types";
 import { useJournal } from "@/hooks/useJournal";
 
@@ -21,6 +23,7 @@ type Tab = "new" | "journal";
 type AppState = "input" | "loading" | "result" | "error";
 
 export default function Home() {
+  const { lang, t } = useLanguage();
   const [tab, setTab] = useState<Tab>("new");
   const [appState, setAppState] = useState<AppState>("input");
   const [result, setResult] = useState<PlaylistResult | null>(null);
@@ -69,12 +72,12 @@ export default function Home() {
       const analyzeRes = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text, lang }),
       });
 
       if (!analyzeRes.ok) {
         const err = await analyzeRes.json();
-        throw new Error(err.message || "감정 분석에 실패했어요.");
+        throw new Error(err.message || t.api.analysisFailed);
       }
 
       const { analysis }: { analysis: EmotionAnalysis } =
@@ -84,12 +87,12 @@ export default function Home() {
       const playlistRes = await fetch("/api/playlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ analysis }),
+        body: JSON.stringify({ analysis, lang }),
       });
 
       if (!playlistRes.ok) {
         const err = await playlistRes.json();
-        throw new Error(err.message || "플레이리스트 생성에 실패했어요.");
+        throw new Error(err.message || t.api.playlistFailed);
       }
 
       const { result: playlistResult }: { result: PlaylistResult } =
@@ -102,7 +105,7 @@ export default function Home() {
       setErrorMessage(
         error instanceof Error
           ? error.message
-          : "알 수 없는 오류가 발생했어요. 다시 시도해주세요."
+          : t.api.analysisFailed
       );
       setAppState("error");
     }
@@ -171,6 +174,7 @@ export default function Home() {
               />
             </Link>
             <div className="flex items-center gap-2">
+              <LanguageToggle />
               <ThemeToggle />
               <AuthButton />
             </div>
@@ -212,7 +216,7 @@ export default function Home() {
           </div>
           <BgmPlayer isPlaying={appState === "input" && bgmEnabled} />
           <p className="text-[#8b7fa3] dark:text-purple-300 text-lg md:text-xl mt-2">
-            당신의 감정에 맞는 음악을 찾아드립니다
+            {t.page.tagline}
           </p>
         </motion.header>
 
@@ -246,7 +250,7 @@ export default function Home() {
                 : "text-[#8b7fa3] dark:text-purple-300 hover:text-[#6b5b8a] dark:hover:text-purple-200"
             }`}
           >
-            오늘의 OST
+            {t.page.tabNew}
           </button>
           <button
             onClick={() => setTab("journal")}
@@ -256,7 +260,7 @@ export default function Home() {
                 : "text-[#8b7fa3] dark:text-purple-300 hover:text-[#6b5b8a] dark:hover:text-purple-200"
             }`}
           >
-            내 기록
+            {t.page.tabJournal}
             {journalEntries.length > 0 && (
               <span className="bg-purple-100 dark:bg-purple-900/60 text-purple-500 dark:text-purple-300 text-xs px-1.5 py-0.5 rounded-full">
                 {journalEntries.length}
@@ -338,7 +342,7 @@ export default function Home() {
                       className="px-6 py-3 bg-white/80 dark:bg-slate-800/80 border border-purple-200 dark:border-purple-700 rounded-full
                                  text-[#6b5b8a] dark:text-purple-200 hover:bg-white dark:hover:bg-slate-800 hover:shadow-sm transition-all duration-200"
                     >
-                      다시 시도하기
+                      {t.page.retry}
                     </button>
                   </motion.div>
                 )}
@@ -383,12 +387,12 @@ export default function Home() {
                         className="w-full max-w-2xl mx-auto mt-6"
                       >
                         <label className="block text-[#8b7fa3] dark:text-purple-300 text-sm font-medium mb-2 px-2">
-                          오늘의 일기 (선택)
+                          {t.page.diaryLabel}
                         </label>
                         <textarea
                           value={diary}
                           onChange={(e) => setDiary(e.target.value.slice(0, 500))}
-                          placeholder="오늘 하루를 기록해보세요..."
+                          placeholder={t.page.diaryPlaceholder}
                           rows={4}
                           className="w-full bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-purple-100 dark:border-purple-800 rounded-2xl px-5 py-4
                                      text-[#4a4458] dark:text-gray-100 placeholder-[#c4b5e0] dark:placeholder-purple-500 text-sm resize-none
@@ -419,7 +423,7 @@ export default function Home() {
                             : "bg-purple-50 dark:bg-purple-900/50 border border-purple-200 dark:border-purple-700 text-purple-600 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/70"
                         }`}
                       >
-                        {saved ? "기록 완료!" : "오늘의 기록으로 저장"}
+                        {saved ? t.page.saved : t.page.save}
                       </button>
 
                       <button
@@ -428,7 +432,7 @@ export default function Home() {
                                    text-[#8b7fa3] dark:text-purple-300 hover:text-[#6b5b8a] dark:hover:text-purple-200 hover:bg-white/80 dark:hover:bg-slate-800/80
                                    transition-all duration-200 text-sm"
                       >
-                        새로운 이야기 들려주기
+                        {t.page.newStory}
                       </button>
                     </motion.div>
                   </motion.div>
@@ -442,7 +446,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="fixed bottom-0 left-0 right-0 py-4 text-center bg-gradient-to-t from-[#f8f5ff] dark:from-[#1a1625] to-transparent">
         <p className="text-[#c4b5e0] dark:text-purple-400 text-xs">
-          Powered by OpenAI & YouTube Music
+          {t.page.footer}
         </p>
       </footer>
     </main>

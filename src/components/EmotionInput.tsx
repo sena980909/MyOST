@@ -2,14 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-
-const EXAMPLE_PROMPTS = [
-  "비 오는 날 카페에서 창밖을 바라보고 있어요",
-  "오랜만에 옛 친구를 만나서 기분이 좋아요",
-  "새벽에 잠이 안 와서 혼자 생각이 많아요",
-  "오늘 드디어 큰 프로젝트를 끝냈어요!",
-  "이별 후 처음으로 그 사람 생각이 났어요",
-];
+import { useLanguage } from "./LanguageProvider";
 
 const MAX_LENGTH = 500;
 
@@ -22,6 +15,7 @@ export default function EmotionInput({
   onSubmit,
   isLoading,
 }: EmotionInputProps) {
+  const { t } = useLanguage();
   const [text, setText] = useState("");
 
   const handleSubmit = () => {
@@ -51,7 +45,7 @@ export default function EmotionInput({
             setText(e.target.value.slice(0, MAX_LENGTH))
           }
           onKeyDown={handleKeyDown}
-          placeholder="오늘 당신의 이야기를 들려주세요..."
+          placeholder={t.emotion.placeholder}
           disabled={isLoading}
           rows={4}
           className="w-full bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-purple-100 dark:border-purple-800 rounded-2xl px-6 py-4
@@ -61,7 +55,7 @@ export default function EmotionInput({
         />
         <div className="flex justify-between items-center mt-2 px-2">
           <span className="text-xs text-[#c4b5e0] dark:text-purple-400">
-            Shift+Enter로 줄바꿈
+            {t.emotion.shiftEnter}
           </span>
           <span
             className={`text-xs ${
@@ -76,7 +70,7 @@ export default function EmotionInput({
       </div>
 
       <div className="flex flex-wrap gap-2 mt-4 justify-center">
-        {EXAMPLE_PROMPTS.map((prompt, index) => (
+        {t.emotion.examples.map((prompt, index) => (
           <motion.button
             key={index}
             initial={{ opacity: 0, scale: 0.9 }}
@@ -111,7 +105,7 @@ export default function EmotionInput({
                      transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-200/50 dark:hover:shadow-purple-400/30"
         >
           <span className="relative z-10">
-            {isLoading ? "분석 중..." : "내 OST 찾기"}
+            {isLoading ? t.emotion.analyzing : t.emotion.findOST}
           </span>
           <div className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300 dark:from-pink-400 dark:via-purple-400 dark:to-blue-400 blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
         </button>

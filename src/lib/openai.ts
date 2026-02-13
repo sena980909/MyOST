@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import { EmotionAnalysis } from "@/types";
+import { Lang } from "@/lib/i18n";
 
 function getClient() {
   return new OpenAI({
@@ -7,13 +8,9 @@ function getClient() {
   });
 }
 
-export async function analyzeAndRecommend(text: string): Promise<EmotionAnalysis> {
-  const response = await getClient().chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      {
-        role: "system",
-        content: `당신은 사용자의 텍스트에서 감정을 분석하고, 그 감정에 딱 맞는 음악을 추천하는 전문 음악 큐레이터입니다.
+const systemPrompts = {
+  ko: {
+    analyze: `당신은 사용자의 텍스트에서 감정을 분석하고, 그 감정에 딱 맞는 음악을 추천하는 전문 음악 큐레이터입니다.
 사용자의 글에서 표면적인 단어뿐만 아니라 내재된 감정과 뉘앙스까지 파악해주세요.
 
 반드시 아래 JSON 형식으로만 응답하세요:
@@ -50,6 +47,65 @@ export async function analyzeAndRecommend(text: string): Promise<EmotionAnalysis
 - 평온/안정: 소프트 팝, 드림 팝, lo-fi 팝
 - 불안/긴장: 얼터너티브 팝, 일렉트로 팝
 - 사랑/따뜻함: R&B 팝, 소울 팝, 어쿠스틱 팝`,
+    dj: `당신은 감성적이고 따뜻한 심야 라디오 DJ입니다.
+청취자의 감정에 깊이 공감하며, 플레이리스트를 소개하는 멘트를 작성합니다.
+2-3문장으로, 반말체, 친근하고 포근한 느낌으로 작성하세요.
+JSON 형식으로 응답: {"djComment": "멘트 내용"}`,
+    djFallback: "오늘 밤, 당신을 위한 음악을 준비했어.",
+  },
+  en: {
+    analyze: `You are an expert music curator who analyzes emotions from user text and recommends perfectly matching songs.
+Read beyond surface-level words to understand the underlying emotions and nuances.
+
+Respond ONLY in the following JSON format:
+{
+  "emotions": ["emotion1", "emotion2"],
+  "intensity": 0.0~1.0,
+  "context": "Brief situation summary (one sentence)",
+  "recommendations": [
+    {
+      "title": "Song title (original)",
+      "artist": "Artist name",
+      "reason": "Why this song was chosen (1-2 sentences, warm late-night radio DJ style)"
+    }
+  ]
+}
+
+Recommendation guidelines:
+- Recommend exactly 10 songs
+- ⚠️ Only recommend English-language pop songs. Never include Korean, Japanese, or other non-English songs
+- Only recommend songs that actually exist. Do not make up songs!
+- Use the exact official release title for song names
+- Use the exact official stage name for artists
+- Prefer well-known accurate songs over uncertain ones
+- Double-check that song title and artist combinations are correct
+- Choose songs that match the emotional nuance (mood matching, not keyword matching)
+- Mix well-known hits with hidden gems
+- Write selection reasons poetically, connecting the listener's emotions with the song's atmosphere
+- Use a warm, friendly, casual tone
+
+Emotion-music mapping guide:
+- Sadness/Nostalgia: Gentle pop ballads, acoustic pop, indie pop
+- Joy/Excitement: Upbeat pop, dance pop, funky pop
+- Anger/Frustration: Pop rock, alternative pop
+- Peace/Calm: Soft pop, dream pop, lo-fi pop
+- Anxiety/Tension: Alternative pop, electro pop
+- Love/Warmth: R&B pop, soul pop, acoustic pop`,
+    dj: `You are an emotional and warm late-night radio DJ.
+You deeply empathize with the listener's emotions and write a comment introducing the playlist.
+Write 2-3 sentences in a warm, friendly, casual tone.
+Respond in JSON format: {"djComment": "your comment"}`,
+    djFallback: "Tonight, I've prepared some music just for you.",
+  },
+};
+
+export async function analyzeAndRecommend(text: string, lang: Lang = "ko"): Promise<EmotionAnalysis> {
+  const response = await getClient().chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      {
+        role: "system",
+        content: systemPrompts[lang].analyze,
       },
       {
         role: "user",
@@ -62,7 +118,7 @@ export async function analyzeAndRecommend(text: string): Promise<EmotionAnalysis
 
   const content = response.choices[0].message.content;
   if (!content) {
-    throw new Error("OpenAI 응답이 비어있습니다.");
+    throw new Error("Empty OpenAI response");
   }
 
   return JSON.parse(content) as EmotionAnalysis;
@@ -71,23 +127,21 @@ export async function analyzeAndRecommend(text: string): Promise<EmotionAnalysis
 export async function generateDJComment(
   emotions: string[],
   context: string,
-  trackNames: string[]
+  trackNames: string[],
+  lang: Lang = "ko"
 ): Promise<string> {
   const response = await getClient().chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
       {
         role: "system",
-        content: `당신은 감성적이고 따뜻한 심야 라디오 DJ입니다.
-청취자의 감정에 깊이 공감하며, 플레이리스트를 소개하는 멘트를 작성합니다.
-2-3문장으로, 반말체, 친근하고 포근한 느낌으로 작성하세요.
-JSON 형식으로 응답: {"djComment": "멘트 내용"}`,
+        content: systemPrompts[lang].dj,
       },
       {
         role: "user",
-        content: `청취자 감정: ${emotions.join(", ")}
-상황: ${context}
-준비한 곡: ${trackNames.join(", ")}`,
+        content: `${lang === "ko" ? "청취자 감정" : "Listener emotions"}: ${emotions.join(", ")}
+${lang === "ko" ? "상황" : "Context"}: ${context}
+${lang === "ko" ? "준비한 곡" : "Prepared songs"}: ${trackNames.join(", ")}`,
       },
     ],
     temperature: 0.8,
@@ -95,8 +149,8 @@ JSON 형식으로 응답: {"djComment": "멘트 내용"}`,
   });
 
   const content = response.choices[0].message.content;
-  if (!content) return "오늘 밤, 당신을 위한 음악을 준비했어.";
+  if (!content) return systemPrompts[lang].djFallback;
 
   const parsed = JSON.parse(content);
-  return parsed.djComment || "오늘 밤, 당신을 위한 음악을 준비했어.";
+  return parsed.djComment || systemPrompts[lang].djFallback;
 }

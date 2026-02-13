@@ -1,9 +1,11 @@
 "use client";
 
 import { useTheme } from "./ThemeProvider";
+import { useLanguage } from "./LanguageProvider";
 
 export default function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
+  const { t } = useLanguage();
 
   const toggle = () => {
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
@@ -14,7 +16,7 @@ export default function ThemeToggle() {
       onClick={toggle}
       className="p-2 rounded-full bg-white/60 dark:bg-slate-800/60 border border-purple-100 dark:border-purple-800
                  hover:bg-white/80 dark:hover:bg-slate-800/80 transition-all duration-200"
-      title={resolvedTheme === "dark" ? "라이트 모드" : "다크 모드"}
+      title={resolvedTheme === "dark" ? t.theme.light : t.theme.dark}
     >
       {resolvedTheme === "dark" ? (
         <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">

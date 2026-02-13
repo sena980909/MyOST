@@ -2,16 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { buildTracks } from "@/lib/youtube";
 import { generateDJComment } from "@/lib/openai";
 import { EmotionAnalysis } from "@/types";
+import { Lang, getTranslations } from "@/lib/i18n";
 
 export async function POST(request: NextRequest) {
   try {
-    const { analysis } = (await request.json()) as {
+    const { analysis, lang = "ko" } = (await request.json()) as {
       analysis: EmotionAnalysis;
+      lang?: Lang;
     };
+    const safeLang = lang === "en" ? "en" : "ko";
+    const t = getTranslations(safeLang);
 
     if (!analysis || !analysis.recommendations) {
       return NextResponse.json(
-        { error: "invalid_input", message: "감정 분석 데이터가 필요합니다." },
+        { error: "invalid_input", message: t.api.analysisDataRequired },
         { status: 400 }
       );
     }
@@ -22,7 +26,8 @@ export async function POST(request: NextRequest) {
     const djComment = await generateDJComment(
       analysis.emotions,
       analysis.context,
-      trackNames
+      trackNames,
+      safeLang
     );
 
     return NextResponse.json({
@@ -37,7 +42,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: "playlist_failed",
-        message: "플레이리스트 생성 중 오류가 발생했어요. 다시 시도해주세요.",
+        message: "Playlist generation failed. Please try again.",
       },
       { status: 500 }
     );
