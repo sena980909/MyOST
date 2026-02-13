@@ -150,11 +150,26 @@ export async function saveJournalEntry(
 
 const RATE_LIMIT = 10;
 const RATE_WINDOW_HOURS = 1;
+const TEST_ACCOUNT_EMAIL = "test@myost.com";
+
+async function isTestAccount(userId: string | null): Promise<boolean> {
+  if (!userId) return false;
+  const { data } = await supabase()
+    .from("users")
+    .select("email")
+    .eq("id", userId)
+    .single();
+  return data?.email === TEST_ACCOUNT_EMAIL;
+}
 
 export async function checkRateLimit(
   userId: string | null,
   ip: string
 ): Promise<{ allowed: boolean; remaining: number; limit: number }> {
+  if (await isTestAccount(userId)) {
+    return { allowed: true, remaining: 999, limit: 999 };
+  }
+
   const limit = RATE_LIMIT;
   const oneHourAgo = new Date(Date.now() - RATE_WINDOW_HOURS * 60 * 60 * 1000).toISOString();
 
