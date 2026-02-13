@@ -92,15 +92,8 @@ export default function LoginPage() {
               src="/MyOST-Title.png"
               alt="MyOST"
               width={200}
-              height={50}
-              className="mx-auto mb-2 dark:hidden"
-            />
-            <Image
-              src="/MyOST-Title-dark.png"
-              alt="MyOST"
-              width={200}
               height={200}
-              className="hidden dark:block mx-auto mb-2 w-[200px] h-auto"
+              className="mx-auto mb-2 w-[200px] h-auto"
             />
           </Link>
           <Image
