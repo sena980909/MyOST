@@ -14,8 +14,8 @@ export default function PlaylistCard({ track, index }: PlaylistCardProps) {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative bg-white/60 dark:bg-white/10 backdrop-blur-sm border border-purple-100 dark:border-purple-800 rounded-2xl p-4
-                 hover:bg-white/80 dark:hover:bg-white/15 hover:border-purple-200 hover:shadow-sm transition-all duration-300"
+      className="group relative bg-white/60 dark:bg-white/8 backdrop-blur-sm border border-purple-100 dark:border-purple-600 rounded-2xl p-4
+                 hover:bg-white/80 dark:hover:bg-white/12 hover:border-purple-200 hover:shadow-sm transition-all duration-300"
     >
       <div className="flex gap-4 items-start">
         {/* Track number */}
@@ -25,9 +25,9 @@ export default function PlaylistCard({ track, index }: PlaylistCardProps) {
 
         {/* Track info */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-[#4a4458] dark:text-[#e8dff5] font-medium truncate">{track.name}</h3>
-          <p className="text-[#8b7fa3] dark:text-[#c4b5e0] text-sm truncate">{track.artist}</p>
-          <p className="text-[#a99bc4] dark:text-[#9b8fb3] text-xs mt-2 leading-relaxed">
+          <h3 className="text-[#4a4458] dark:text-white font-medium truncate">{track.name}</h3>
+          <p className="text-[#8b7fa3] dark:text-purple-300 text-sm truncate">{track.artist}</p>
+          <p className="text-[#a99bc4] dark:text-purple-300/70 text-xs mt-2 leading-relaxed">
             {track.commentary}
           </p>
         </div>

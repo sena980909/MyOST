@@ -206,8 +206,8 @@ export default function Home() {
             }}
             className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
               tab === "new"
-                ? "bg-white/80 dark:bg-white/10 text-[#6b5b8a] dark:text-[#e8dff5] border border-purple-200 dark:border-purple-700 shadow-sm"
-                : "text-[#8b7fa3] dark:text-[#9b8fb3] hover:text-[#6b5b8a] dark:hover:text-[#e8dff5]"
+                ? "bg-white/80 dark:bg-purple-800/60 text-[#6b5b8a] dark:text-white border border-purple-200 dark:border-purple-500 shadow-sm"
+                : "text-[#8b7fa3] dark:text-purple-300 hover:text-[#6b5b8a] dark:hover:text-white"
             }`}
           >
             오늘의 OST
@@ -216,13 +216,13 @@ export default function Home() {
             onClick={() => setTab("journal")}
             className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
               tab === "journal"
-                ? "bg-white/80 dark:bg-white/10 text-[#6b5b8a] dark:text-[#e8dff5] border border-purple-200 dark:border-purple-700 shadow-sm"
-                : "text-[#8b7fa3] dark:text-[#9b8fb3] hover:text-[#6b5b8a] dark:hover:text-[#e8dff5]"
+                ? "bg-white/80 dark:bg-purple-800/60 text-[#6b5b8a] dark:text-white border border-purple-200 dark:border-purple-500 shadow-sm"
+                : "text-[#8b7fa3] dark:text-purple-300 hover:text-[#6b5b8a] dark:hover:text-white"
             }`}
           >
             내 기록
             {journalEntries.length > 0 && (
-              <span className="bg-purple-100 text-purple-500 text-xs px-1.5 py-0.5 rounded-full">
+              <span className="bg-purple-100 dark:bg-purple-700/60 text-purple-500 dark:text-purple-200 text-xs px-1.5 py-0.5 rounded-full">
                 {journalEntries.length}
               </span>
             )}
@@ -307,8 +307,8 @@ export default function Home() {
                     </p>
                     <button
                       onClick={handleReset}
-                      className="px-6 py-3 bg-white/80 dark:bg-white/10 border border-purple-200 dark:border-purple-700 rounded-full
-                                 text-[#6b5b8a] dark:text-[#e8dff5] hover:bg-white dark:hover:bg-white/20 hover:shadow-sm transition-all duration-200"
+                      className="px-6 py-3 bg-white/80 dark:bg-purple-700/50 border border-purple-200 dark:border-purple-500 rounded-full
+                                 text-[#6b5b8a] dark:text-white hover:bg-white dark:hover:bg-purple-600/60 hover:shadow-sm transition-all duration-200"
                     >
                       다시 시도하기
                     </button>
@@ -358,8 +358,8 @@ export default function Home() {
                         disabled={saved}
                         className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
                           saved
-                            ? "bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 text-green-600 dark:text-green-400"
-                            : "bg-purple-50 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-700 text-purple-600 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/50"
+                            ? "bg-green-50 dark:bg-green-800/40 border border-green-200 dark:border-green-500 text-green-600 dark:text-green-300"
+                            : "bg-purple-50 dark:bg-purple-700/40 border border-purple-200 dark:border-purple-500 text-purple-600 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-600/50"
                         }`}
                       >
                         {saved ? "기록 완료!" : "오늘의 기록으로 저장"}
@@ -367,8 +367,8 @@ export default function Home() {
 
                       <button
                         onClick={handleReset}
-                        className="px-6 py-3 bg-white/60 dark:bg-white/10 border border-purple-100 dark:border-purple-700 rounded-full
-                                   text-[#8b7fa3] dark:text-[#c4b5e0] hover:text-[#6b5b8a] dark:hover:text-[#e8dff5] hover:bg-white/80 dark:hover:bg-white/20
+                        className="px-6 py-3 bg-white/60 dark:bg-purple-800/40 border border-purple-100 dark:border-purple-500 rounded-full
+                                   text-[#8b7fa3] dark:text-purple-200 hover:text-[#6b5b8a] dark:hover:text-white hover:bg-white/80 dark:hover:bg-purple-700/50
                                    transition-all duration-200 text-sm"
                       >
                         새로운 이야기 들려주기

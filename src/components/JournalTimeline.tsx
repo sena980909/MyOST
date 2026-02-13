@@ -74,7 +74,7 @@ export default function JournalTimeline({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -100 }}
-                  className="bg-white/60 dark:bg-white/10 backdrop-blur-sm border border-purple-100 dark:border-purple-800 rounded-2xl p-4 hover:bg-white/80 dark:hover:bg-white/15 transition-colors shadow-sm"
+                  className="bg-white/60 dark:bg-white/8 backdrop-blur-sm border border-purple-100 dark:border-purple-600 rounded-2xl p-4 hover:bg-white/80 dark:hover:bg-white/12 transition-colors shadow-sm"
                 >
                   {/* Header */}
                   <div className="flex items-start justify-between mb-2">
@@ -86,7 +86,7 @@ export default function JournalTimeline({
                         {entry.emotions.map((emotion) => (
                           <span
                             key={emotion}
-                            className="px-2 py-0.5 bg-purple-50 dark:bg-purple-900/40 border border-purple-200 dark:border-purple-700 rounded-full text-purple-500 dark:text-purple-400 text-xs"
+                            className="px-2 py-0.5 bg-purple-50 dark:bg-purple-800/50 border border-purple-200 dark:border-purple-500 rounded-full text-purple-500 dark:text-purple-300 text-xs"
                           >
                             {emotion}
                           </span>
@@ -105,7 +105,7 @@ export default function JournalTimeline({
                   </div>
 
                   {/* Text preview */}
-                  <p className="text-[#6b5b8a] dark:text-[#c4b5e0] text-sm leading-relaxed mb-3 line-clamp-2">
+                  <p className="text-[#6b5b8a] dark:text-purple-200 text-sm leading-relaxed mb-3 line-clamp-2">
                     {entry.text}
                   </p>
 

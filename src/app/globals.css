@@ -5,6 +5,7 @@
 :root {
   --background: #f8f5ff;
   --foreground: #4a4458;
+  color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,13 +19,6 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-
-/* Prevent Samsung Internet from inverting images */
-@media (prefers-color-scheme: dark) {
-  img {
-    filter: none !important;
-  }
 }
 
 /* Custom scrollbar */
