@@ -33,7 +33,7 @@ export default function Commentary({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}
-        className="relative bg-white/70 dark:bg-white/8 backdrop-blur-sm border border-purple-100 dark:border-purple-600 rounded-2xl p-6 shadow-sm"
+        className="relative bg-white/70 dark:bg-white/10 backdrop-blur-sm border border-purple-100 dark:border-purple-600 rounded-2xl p-6 shadow-sm"
       >
         <div className="absolute -top-3 left-6 px-3 py-0.5 bg-gradient-to-r from-pink-300 to-purple-300 rounded-full">
           <span className="text-xs text-white font-medium">DJ MyOST</span>

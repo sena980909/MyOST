@@ -110,7 +110,7 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <div className="bg-white/80 dark:bg-white/8 backdrop-blur-sm border border-purple-100 dark:border-purple-600 rounded-2xl p-6 shadow-sm">
+        <div className="bg-white/80 dark:bg-white/10 backdrop-blur-sm border border-purple-100 dark:border-purple-600 rounded-2xl p-6 shadow-sm">
           {/* Email/Password Form */}
           <form onSubmit={handleSubmit} className="space-y-3">
             {isSignUp && (
@@ -119,7 +119,7 @@ export default function LoginPage() {
                 placeholder="닉네임"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 bg-white dark:bg-white/8 border border-gray-200 dark:border-purple-600 rounded-xl text-gray-700 dark:text-white text-sm placeholder-gray-400 dark:placeholder-purple-400 focus:outline-none focus:border-purple-300 focus:ring-1 focus:ring-purple-200 transition-all"
+                className="w-full px-4 py-3 bg-white dark:bg-white/10 border border-gray-200 dark:border-purple-600 rounded-xl text-gray-700 dark:text-white text-sm placeholder-gray-400 dark:placeholder-purple-400 focus:outline-none focus:border-purple-300 focus:ring-1 focus:ring-purple-200 transition-all"
               />
             )}
             <input
@@ -127,14 +127,14 @@ export default function LoginPage() {
               placeholder="이메일"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 bg-white dark:bg-white/8 border border-gray-200 dark:border-purple-600 rounded-xl text-gray-700 dark:text-white text-sm placeholder-gray-400 dark:placeholder-purple-400 focus:outline-none focus:border-purple-300 focus:ring-1 focus:ring-purple-200 transition-all"
+              className="w-full px-4 py-3 bg-white dark:bg-white/10 border border-gray-200 dark:border-purple-600 rounded-xl text-gray-700 dark:text-white text-sm placeholder-gray-400 dark:placeholder-purple-400 focus:outline-none focus:border-purple-300 focus:ring-1 focus:ring-purple-200 transition-all"
             />
             <input
               type="password"
               placeholder="비밀번호"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 bg-white dark:bg-white/8 border border-gray-200 dark:border-purple-600 rounded-xl text-gray-700 dark:text-white text-sm placeholder-gray-400 dark:placeholder-purple-400 focus:outline-none focus:border-purple-300 focus:ring-1 focus:ring-purple-200 transition-all"
+              className="w-full px-4 py-3 bg-white dark:bg-white/10 border border-gray-200 dark:border-purple-600 rounded-xl text-gray-700 dark:text-white text-sm placeholder-gray-400 dark:placeholder-purple-400 focus:outline-none focus:border-purple-300 focus:ring-1 focus:ring-purple-200 transition-all"
             />
 
             {error && (
@@ -180,7 +180,7 @@ export default function LoginPage() {
           {/* Google */}
           <button
             onClick={() => signIn("google", { callbackUrl: "/" })}
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white dark:bg-white/8 border border-gray-200 dark:border-purple-600 rounded-xl text-gray-700 dark:text-white font-medium text-sm hover:bg-gray-50 dark:hover:bg-white/15 hover:shadow-sm transition-all"
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white dark:bg-white/10 border border-gray-200 dark:border-purple-600 rounded-xl text-gray-700 dark:text-white font-medium text-sm hover:bg-gray-50 dark:hover:bg-white/15 hover:shadow-sm transition-all"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path

@@ -74,7 +74,7 @@ export default function JournalTimeline({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -100 }}
-                  className="bg-white/60 dark:bg-white/8 backdrop-blur-sm border border-purple-100 dark:border-purple-600 rounded-2xl p-4 hover:bg-white/80 dark:hover:bg-white/12 transition-colors shadow-sm"
+                  className="bg-white/60 dark:bg-white/10 backdrop-blur-sm border border-purple-100 dark:border-purple-600 rounded-2xl p-4 hover:bg-white/80 dark:hover:bg-white/15 transition-colors shadow-sm"
                 >
                   {/* Header */}
                   <div className="flex items-start justify-between mb-2">

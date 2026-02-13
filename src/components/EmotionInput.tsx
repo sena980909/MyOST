@@ -54,7 +54,7 @@ export default function EmotionInput({
           placeholder="오늘 당신의 이야기를 들려주세요..."
           disabled={isLoading}
           rows={4}
-          className="w-full bg-white/70 dark:bg-white/8 backdrop-blur-sm border border-purple-100 dark:border-purple-600 rounded-2xl px-6 py-4
+          className="w-full bg-white/70 dark:bg-white/10 backdrop-blur-sm border border-purple-100 dark:border-purple-600 rounded-2xl px-6 py-4
                      text-[#4a4458] dark:text-white placeholder-[#c4b5e0] dark:placeholder-purple-400 text-lg resize-none
                      focus:outline-none focus:border-purple-300 dark:focus:border-purple-400 focus:ring-2 focus:ring-purple-200/50
                      transition-all duration-300 disabled:opacity-50 shadow-sm"
