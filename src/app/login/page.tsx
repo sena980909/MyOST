@@ -3,6 +3,7 @@
 import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function LoginPage() {
@@ -86,13 +87,15 @@ export default function LoginPage() {
         className="w-full max-w-sm mx-auto px-4"
       >
         <div className="text-center mb-8">
-          <Image
-            src="/MyOST-Title.png"
-            alt="MyOST"
-            width={200}
-            height={50}
-            className="mx-auto mb-2"
-          />
+          <Link href="/">
+            <Image
+              src="/MyOST-Title.png"
+              alt="MyOST"
+              width={200}
+              height={50}
+              className="mx-auto mb-2"
+            />
+          </Link>
           <Image
             src="/MyOST-icon.png"
             alt="MyOST 마스코트"

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import EmotionInput from "@/components/EmotionInput";
 import Loading from "@/components/Loading";
 import Commentary from "@/components/Commentary";
@@ -152,7 +153,7 @@ export default function Home() {
           className="text-center mb-8 relative"
         >
           <div className="flex items-center justify-between mb-4">
-            <div className="cursor-pointer" onClick={handleReset}>
+            <Link href="/" onClick={handleReset} className="cursor-pointer">
               <Image
                 src="/MyOST-Title.png"
                 alt="MyOST"
@@ -160,7 +161,7 @@ export default function Home() {
                 height={50}
                 priority
               />
-            </div>
+            </Link>
             <AuthButton />
           </div>
 
