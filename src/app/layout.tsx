@@ -51,7 +51,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#f8f5ff] min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#f8f5ff] dark:bg-[#1a1625] min-h-screen`}
       >
         <SessionProvider>{children}</SessionProvider>
       </body>

@@ -75,9 +75,9 @@ export default function LoginPage() {
     <main className="relative min-h-screen overflow-hidden flex items-center justify-center">
       {/* Pastel background */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-pink-200/40 rounded-full blur-[128px]" />
-        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-200/40 rounded-full blur-[128px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-200/30 rounded-full blur-[128px]" />
+        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-pink-200/40 dark:bg-pink-900/20 rounded-full blur-[128px]" />
+        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-200/40 dark:bg-blue-900/20 rounded-full blur-[128px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-200/30 dark:bg-purple-900/20 rounded-full blur-[128px]" />
       </div>
 
       <motion.div
@@ -101,7 +101,7 @@ export default function LoginPage() {
             alt="MyOST 마스코트"
             width={260}
             height={260}
-            className="mx-auto drop-shadow-lg rounded-full bg-[#f8f5ff] mb-3"
+            className="mx-auto drop-shadow-lg rounded-full bg-white mb-3"
           />
           <p className="text-[#8b7fa3] text-sm">
             {isSignUp
@@ -110,7 +110,7 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <div className="bg-white/80 backdrop-blur-sm border border-purple-100 rounded-2xl p-6 shadow-sm">
+        <div className="bg-white/80 dark:bg-white/10 backdrop-blur-sm border border-purple-100 dark:border-purple-800 rounded-2xl p-6 shadow-sm">
           {/* Email/Password Form */}
           <form onSubmit={handleSubmit} className="space-y-3">
             {isSignUp && (
@@ -119,7 +119,7 @@ export default function LoginPage() {
                 placeholder="닉네임"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 text-sm placeholder-gray-400 focus:outline-none focus:border-purple-300 focus:ring-1 focus:ring-purple-200 transition-all"
+                className="w-full px-4 py-3 bg-white dark:bg-white/10 border border-gray-200 dark:border-purple-800 rounded-xl text-gray-700 dark:text-gray-200 text-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-purple-300 focus:ring-1 focus:ring-purple-200 transition-all"
               />
             )}
             <input
@@ -127,14 +127,14 @@ export default function LoginPage() {
               placeholder="이메일"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 text-sm placeholder-gray-400 focus:outline-none focus:border-purple-300 focus:ring-1 focus:ring-purple-200 transition-all"
+              className="w-full px-4 py-3 bg-white dark:bg-white/10 border border-gray-200 dark:border-purple-800 rounded-xl text-gray-700 dark:text-gray-200 text-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-purple-300 focus:ring-1 focus:ring-purple-200 transition-all"
             />
             <input
               type="password"
               placeholder="비밀번호"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 text-sm placeholder-gray-400 focus:outline-none focus:border-purple-300 focus:ring-1 focus:ring-purple-200 transition-all"
+              className="w-full px-4 py-3 bg-white dark:bg-white/10 border border-gray-200 dark:border-purple-800 rounded-xl text-gray-700 dark:text-gray-200 text-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-purple-300 focus:ring-1 focus:ring-purple-200 transition-all"
             />
 
             {error && (
@@ -144,7 +144,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full px-4 py-3 bg-purple-500 text-white rounded-xl font-medium text-sm hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="w-full px-4 py-3 bg-purple-500 dark:bg-purple-600 text-white rounded-xl font-medium text-sm hover:bg-purple-600 dark:hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               {loading
                 ? "처리 중..."
@@ -162,7 +162,7 @@ export default function LoginPage() {
                 setIsSignUp(!isSignUp);
                 setError("");
               }}
-              className="text-[#8b7fa3] text-xs hover:text-purple-600 transition-colors"
+              className="text-[#8b7fa3] dark:text-[#c4b5e0] text-xs hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
             >
               {isSignUp
                 ? "이미 계정이 있나요? 로그인"
@@ -172,15 +172,15 @@ export default function LoginPage() {
 
           {/* Divider */}
           <div className="flex items-center gap-3 my-4">
-            <div className="flex-1 h-px bg-gray-200" />
-            <span className="text-xs text-gray-400">또는</span>
-            <div className="flex-1 h-px bg-gray-200" />
+            <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
+            <span className="text-xs text-gray-400 dark:text-gray-500">또는</span>
+            <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
           </div>
 
           {/* Google */}
           <button
             onClick={() => signIn("google", { callbackUrl: "/" })}
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 font-medium text-sm hover:bg-gray-50 hover:shadow-sm transition-all"
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white dark:bg-white/10 border border-gray-200 dark:border-purple-800 rounded-xl text-gray-700 dark:text-gray-200 font-medium text-sm hover:bg-gray-50 dark:hover:bg-white/20 hover:shadow-sm transition-all"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -207,7 +207,7 @@ export default function LoginPage() {
         <div className="mt-6 text-center">
           <a
             href="/"
-            className="text-[#c4b5e0] text-xs hover:text-[#8b7fa3] transition-colors"
+            className="text-[#c4b5e0] dark:text-[#9b8fb3] text-xs hover:text-[#8b7fa3] dark:hover:text-[#e8dff5] transition-colors"
           >
             로그인 없이 사용하기
           </a>
@@ -215,7 +215,7 @@ export default function LoginPage() {
 
         {/* Benefits */}
         <div className="mt-8 space-y-2">
-          <p className="text-[#c4b5e0] text-xs text-center mb-3">
+          <p className="text-[#c4b5e0] dark:text-[#9b8fb3] text-xs text-center mb-3">
             로그인하면 이런 것들이 가능해요
           </p>
           {[
@@ -224,7 +224,7 @@ export default function LoginPage() {
           ].map((benefit) => (
             <div
               key={benefit}
-              className="flex items-center gap-2 text-[#8b7fa3] text-xs"
+              className="flex items-center gap-2 text-[#8b7fa3] dark:text-[#c4b5e0] text-xs"
             >
               <svg
                 className="w-3.5 h-3.5 text-purple-400 flex-shrink-0"

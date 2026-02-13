@@ -14,20 +14,20 @@ export default function PlaylistCard({ track, index }: PlaylistCardProps) {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative bg-white/60 backdrop-blur-sm border border-purple-100 rounded-2xl p-4
-                 hover:bg-white/80 hover:border-purple-200 hover:shadow-sm transition-all duration-300"
+      className="group relative bg-white/60 dark:bg-white/10 backdrop-blur-sm border border-purple-100 dark:border-purple-800 rounded-2xl p-4
+                 hover:bg-white/80 dark:hover:bg-white/15 hover:border-purple-200 hover:shadow-sm transition-all duration-300"
     >
       <div className="flex gap-4 items-start">
         {/* Track number */}
-        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center text-purple-400 text-sm font-mono">
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-50 dark:bg-purple-900/50 flex items-center justify-center text-purple-400 text-sm font-mono">
           {String(index + 1).padStart(2, "0")}
         </div>
 
         {/* Track info */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-[#4a4458] font-medium truncate">{track.name}</h3>
-          <p className="text-[#8b7fa3] text-sm truncate">{track.artist}</p>
-          <p className="text-[#a99bc4] text-xs mt-2 leading-relaxed">
+          <h3 className="text-[#4a4458] dark:text-[#e8dff5] font-medium truncate">{track.name}</h3>
+          <p className="text-[#8b7fa3] dark:text-[#c4b5e0] text-sm truncate">{track.artist}</p>
+          <p className="text-[#a99bc4] dark:text-[#9b8fb3] text-xs mt-2 leading-relaxed">
             {track.commentary}
           </p>
         </div>
@@ -38,8 +38,8 @@ export default function PlaylistCard({ track, index }: PlaylistCardProps) {
             href={track.youtubeUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 rounded-full bg-red-50
-                       text-red-400 hover:bg-red-100 hover:text-red-500
+            className="p-2 rounded-full bg-red-50 dark:bg-red-900/30
+                       text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 hover:text-red-500
                        opacity-60 group-hover:opacity-100 transition-all duration-200"
             title="YouTube에서 검색"
           >
@@ -51,8 +51,8 @@ export default function PlaylistCard({ track, index }: PlaylistCardProps) {
             href={track.youtubeMusicUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 rounded-full bg-rose-50
-                       text-rose-400 hover:bg-rose-100 hover:text-rose-500
+            className="p-2 rounded-full bg-rose-50 dark:bg-rose-900/30
+                       text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/50 hover:text-rose-500
                        opacity-60 group-hover:opacity-100 transition-all duration-200"
             title="YouTube Music에서 듣기"
           >

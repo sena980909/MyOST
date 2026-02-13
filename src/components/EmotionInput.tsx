@@ -54,8 +54,8 @@ export default function EmotionInput({
           placeholder="오늘 당신의 이야기를 들려주세요..."
           disabled={isLoading}
           rows={4}
-          className="w-full bg-white/70 backdrop-blur-sm border border-purple-100 rounded-2xl px-6 py-4
-                     text-[#4a4458] placeholder-[#c4b5e0] text-lg resize-none
+          className="w-full bg-white/70 dark:bg-white/10 backdrop-blur-sm border border-purple-100 dark:border-purple-800 rounded-2xl px-6 py-4
+                     text-[#4a4458] dark:text-[#e8dff5] placeholder-[#c4b5e0] dark:placeholder-[#6b5b8a] text-lg resize-none
                      focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-200/50
                      transition-all duration-300 disabled:opacity-50 shadow-sm"
         />
@@ -84,8 +84,8 @@ export default function EmotionInput({
             transition={{ delay: 0.4 + index * 0.1 }}
             onClick={() => setText(prompt)}
             disabled={isLoading}
-            className="px-3 py-1.5 text-xs bg-white/60 border border-purple-100 rounded-full
-                       text-[#8b7fa3] hover:text-[#6b5b8a] hover:bg-white/80 hover:border-purple-200
+            className="px-3 py-1.5 text-xs bg-white/60 dark:bg-white/10 border border-purple-100 dark:border-purple-800 rounded-full
+                       text-[#8b7fa3] dark:text-[#c4b5e0] hover:text-[#6b5b8a] dark:hover:text-[#e8dff5] hover:bg-white/80 dark:hover:bg-white/20 hover:border-purple-200
                        transition-all duration-200 disabled:opacity-30"
           >
             {prompt}
