@@ -163,7 +163,15 @@ export default function Home() {
                 alt="MyOST"
                 width={200}
                 height={50}
-                className="dark:brightness-0 dark:invert"
+                className="dark:hidden"
+                priority
+              />
+              <Image
+                src="/MyOST-Title-dark.png"
+                alt="MyOST"
+                width={200}
+                height={200}
+                className="hidden dark:block w-[200px] h-auto"
                 priority
               />
             </Link>
