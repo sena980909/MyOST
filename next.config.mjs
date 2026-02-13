@@ -13,7 +13,7 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: "/manifest.json",
+        source: "/manifest.webmanifest",
         headers: [
           {
             key: "Cache-Control",
