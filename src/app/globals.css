@@ -5,7 +5,12 @@
 :root {
   --background: #f8f5ff;
   --foreground: #4a4458;
-  color-scheme: only light;
+  color-scheme: light dark;
+}
+
+.dark {
+  --background: #1a1625;
+  --foreground: #e5e7eb;
 }
 
 body {
@@ -30,6 +35,14 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(196, 181, 224, 0.5);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.3);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.5);
 }
 
 /* Background gradient animation */

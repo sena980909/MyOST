@@ -28,7 +28,7 @@ export default function JournalTimeline({
         className="text-center py-16"
       >
         <div className="text-4xl mb-4 opacity-30">&#9835;</div>
-        <p className="text-[#c4b5e0] text-sm">
+        <p className="text-[#c4b5e0] dark:text-purple-400 text-sm">
           아직 기록이 없어요.
           <br />
           오늘의 이야기를 들려주세요.
@@ -59,11 +59,11 @@ export default function JournalTimeline({
       {Object.entries(grouped).map(([dateLabel, dateEntries]) => (
         <div key={dateLabel}>
           <div className="flex items-center gap-3 mb-3">
-            <div className="h-px flex-1 bg-purple-100" />
-            <span className="text-[#c4b5e0] text-xs font-medium">
+            <div className="h-px flex-1 bg-purple-100 dark:bg-purple-900" />
+            <span className="text-[#c4b5e0] dark:text-purple-400 text-xs font-medium">
               {dateLabel}
             </span>
-            <div className="h-px flex-1 bg-purple-100" />
+            <div className="h-px flex-1 bg-purple-100 dark:bg-purple-900" />
           </div>
 
           <div className="space-y-3">
@@ -74,19 +74,19 @@ export default function JournalTimeline({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -100 }}
-                  className="bg-white/60 backdrop-blur-sm border border-purple-100 rounded-2xl p-4 hover:bg-white/80 transition-colors shadow-sm"
+                  className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-purple-100 dark:border-purple-800 rounded-2xl p-4 hover:bg-white/80 dark:hover:bg-slate-800/80 transition-colors shadow-sm"
                 >
                   {/* Header */}
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <span className="text-[#c4b5e0] text-xs">
+                      <span className="text-[#c4b5e0] dark:text-purple-400 text-xs">
                         {formatTime(entry.date)}
                       </span>
                       <div className="flex flex-wrap gap-1.5 mt-1.5">
                         {entry.emotions.map((emotion) => (
                           <span
                             key={emotion}
-                            className="px-2 py-0.5 bg-purple-50 border border-purple-200 rounded-full text-purple-500 text-xs"
+                            className="px-2 py-0.5 bg-purple-50 dark:bg-purple-900/50 border border-purple-200 dark:border-purple-700 rounded-full text-purple-500 dark:text-purple-300 text-xs"
                           >
                             {emotion}
                           </span>
@@ -95,7 +95,7 @@ export default function JournalTimeline({
                     </div>
                     <button
                       onClick={() => handleDelete(entry.id)}
-                      className="text-[#c4b5e0] hover:text-rose-400 transition-colors p-1"
+                      className="text-[#c4b5e0] dark:text-purple-400 hover:text-rose-400 transition-colors p-1"
                       title="삭제"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -105,14 +105,14 @@ export default function JournalTimeline({
                   </div>
 
                   {/* Text preview */}
-                  <p className="text-[#6b5b8a] text-sm leading-relaxed mb-2 line-clamp-2">
+                  <p className="text-[#6b5b8a] dark:text-purple-200 text-sm leading-relaxed mb-2 line-clamp-2">
                     {entry.text}
                   </p>
 
                   {/* Diary */}
                   {entry.diary && (
-                    <div className="bg-purple-50/50 border border-purple-100 rounded-xl px-3 py-2 mb-3">
-                      <p className="text-[#6b5b8a] text-xs leading-relaxed whitespace-pre-wrap">
+                    <div className="bg-purple-50/50 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800 rounded-xl px-3 py-2 mb-3">
+                      <p className="text-[#6b5b8a] dark:text-purple-200 text-xs leading-relaxed whitespace-pre-wrap">
                         {entry.diary}
                       </p>
                     </div>
@@ -128,8 +128,8 @@ export default function JournalTimeline({
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                       >
-                        <div className="border-t border-purple-100 pt-3 mb-3">
-                          <p className="text-[#8b7fa3] text-xs italic mb-2">
+                        <div className="border-t border-purple-100 dark:border-purple-900 pt-3 mb-3">
+                          <p className="text-[#8b7fa3] dark:text-purple-300 text-xs italic mb-2">
                             &ldquo;{entry.playlist.djComment}&rdquo;
                           </p>
                           <div className="space-y-1.5">
@@ -139,16 +139,16 @@ export default function JournalTimeline({
                                 href={track.youtubeMusicUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center gap-2 text-xs text-[#8b7fa3] hover:text-[#6b5b8a] transition-colors"
+                                className="flex items-center gap-2 text-xs text-[#8b7fa3] dark:text-purple-300 hover:text-[#6b5b8a] dark:hover:text-purple-200 transition-colors"
                               >
-                                <span className="text-[#c4b5e0] font-mono w-5">
+                                <span className="text-[#c4b5e0] dark:text-purple-400 font-mono w-5">
                                   {String(i + 1).padStart(2, "0")}
                                 </span>
                                 <span className="truncate">
                                   {track.name}
                                 </span>
-                                <span className="text-[#c4b5e0]">-</span>
-                                <span className="text-[#a99bc4] truncate">
+                                <span className="text-[#c4b5e0] dark:text-purple-400">-</span>
+                                <span className="text-[#a99bc4] dark:text-purple-400 truncate">
                                   {track.artist}
                                 </span>
                               </a>
@@ -167,16 +167,16 @@ export default function JournalTimeline({
                           expandedId === entry.id ? null : entry.id
                         )
                       }
-                      className="text-xs text-[#8b7fa3] hover:text-[#6b5b8a] transition-colors"
+                      className="text-xs text-[#8b7fa3] dark:text-purple-300 hover:text-[#6b5b8a] dark:hover:text-purple-200 transition-colors"
                     >
                       {expandedId === entry.id
                         ? "플레이리스트 접기"
                         : "플레이리스트 보기"}
                     </button>
-                    <span className="text-purple-200">|</span>
+                    <span className="text-purple-200 dark:text-purple-800">|</span>
                     <button
                       onClick={() => onReRecommend(entry)}
-                      className="text-xs text-pink-400/60 hover:text-pink-500 transition-colors"
+                      className="text-xs text-pink-400/60 dark:text-pink-400/80 hover:text-pink-500 dark:hover:text-pink-400 transition-colors"
                     >
                       새로운 추천 받기
                     </button>
