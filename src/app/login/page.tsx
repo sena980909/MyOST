@@ -101,7 +101,7 @@ export default function LoginPage() {
             alt="MyOST 마스코트"
             width={260}
             height={260}
-            className="mx-auto drop-shadow-lg mb-3"
+            className="mx-auto drop-shadow-lg rounded-full bg-[#f8f5ff] mb-3"
           />
           <p className="text-[#8b7fa3] text-sm">
             {isSignUp

@@ -171,7 +171,7 @@ export default function Home() {
               alt="MyOST 마스코트"
               width={260}
               height={260}
-              className="drop-shadow-lg"
+              className="drop-shadow-lg rounded-full bg-[#f8f5ff]"
               priority
             />
           </div>
