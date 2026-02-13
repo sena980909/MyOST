@@ -17,13 +17,15 @@ export function saveJournalEntry(
   text: string,
   emotions: string[],
   context: string,
-  playlist: PlaylistResult
+  playlist: PlaylistResult,
+  diary?: string
 ): JournalEntry {
   const entries = getJournalEntries();
   const entry: JournalEntry = {
     id: `entry-${Date.now()}`,
     date: new Date().toISOString(),
     text,
+    diary: diary || undefined,
     emotions,
     context,
     playlist,

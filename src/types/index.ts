@@ -30,6 +30,7 @@ export interface JournalEntry {
   id: string;
   date: string;
   text: string;
+  diary?: string;
   emotions: string[];
   context: string;
   playlist: PlaylistResult;

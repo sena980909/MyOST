@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Normal save
-  const { text, emotions, context, playlist } = body;
+  const { text, emotions, context, playlist, diary } = body;
 
   if (!text || !emotions || !context || !playlist) {
     return NextResponse.json(
@@ -46,7 +46,8 @@ export async function POST(request: NextRequest) {
     text,
     emotions,
     context,
-    playlist
+    playlist,
+    diary
   );
 
   if (!entry) {

@@ -9,6 +9,7 @@ export async function getJournalEntries(userId: string): Promise<JournalEntry[]>
     .select(`
       id,
       text,
+      diary,
       emotions,
       context,
       created_at,
@@ -52,6 +53,7 @@ export async function getJournalEntries(userId: string): Promise<JournalEntry[]>
       id: entry.id,
       date: entry.created_at,
       text: entry.text,
+      diary: entry.diary ?? undefined,
       emotions: entry.emotions,
       context: entry.context,
       playlist: {
@@ -81,14 +83,18 @@ export async function saveJournalEntry(
   text: string,
   emotions: string[],
   context: string,
-  playlist: PlaylistResult
+  playlist: PlaylistResult,
+  diary?: string
 ): Promise<JournalEntry | null> {
   const db = supabase();
 
   // Insert journal entry
+  const insertData: Record<string, unknown> = { user_id: userId, text, emotions, context };
+  if (diary) insertData.diary = diary;
+
   const { data: entry, error: entryError } = await db
     .from("journal_entries")
-    .insert({ user_id: userId, text, emotions, context })
+    .insert(insertData)
     .select("id, created_at")
     .single();
 
@@ -135,6 +141,7 @@ export async function saveJournalEntry(
     id: entry.id,
     date: entry.created_at,
     text,
+    diary: diary || undefined,
     emotions,
     context,
     playlist,

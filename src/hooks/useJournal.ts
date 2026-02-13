@@ -45,10 +45,11 @@ export function useJournal() {
       text: string,
       emotions: string[],
       context: string,
-      playlist: PlaylistResult
+      playlist: PlaylistResult,
+      diary?: string
     ): Promise<boolean> => {
       if (!isLoggedIn) {
-        saveLocalEntry(text, emotions, context, playlist);
+        saveLocalEntry(text, emotions, context, playlist, diary);
         setEntries(getLocalEntries());
         return true;
       }
@@ -57,7 +58,7 @@ export function useJournal() {
         const res = await fetch("/api/journal", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text, emotions, context, playlist }),
+          body: JSON.stringify({ text, emotions, context, playlist, diary }),
         });
 
         if (res.ok) {

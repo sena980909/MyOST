@@ -28,6 +28,7 @@ export default function Home() {
   const [currentText, setCurrentText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [saved, setSaved] = useState(false);
+  const [diary, setDiary] = useState("");
   const [showMigration, setShowMigration] = useState(true);
   const [localEntriesForMigration, setLocalEntriesForMigration] = useState<
     JournalEntry[]
@@ -109,7 +110,8 @@ export default function Home() {
       currentText,
       currentAnalysis.emotions,
       currentAnalysis.context,
-      result
+      result,
+      diary.trim() || undefined
     );
     if (success) {
       setSaved(true);
@@ -123,6 +125,7 @@ export default function Home() {
     setCurrentText("");
     setErrorMessage("");
     setSaved(false);
+    setDiary("");
   };
 
   const handleReRecommend = (entry: JournalEntry) => {
@@ -346,12 +349,41 @@ export default function Home() {
                       <AdBanner slot="result-bottom" />
                     </div>
 
+                    {/* Diary input */}
+                    {!saved && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.0 }}
+                        className="w-full max-w-2xl mx-auto mt-6"
+                      >
+                        <label className="block text-[#8b7fa3] dark:text-purple-300 text-sm font-medium mb-2 px-2">
+                          오늘의 일기 (선택)
+                        </label>
+                        <textarea
+                          value={diary}
+                          onChange={(e) => setDiary(e.target.value.slice(0, 500))}
+                          placeholder="오늘 하루를 기록해보세요..."
+                          rows={4}
+                          className="w-full bg-white/70 dark:bg-white/10 backdrop-blur-sm border border-purple-100 dark:border-purple-600 rounded-2xl px-5 py-4
+                                     text-[#4a4458] dark:text-white placeholder-[#c4b5e0] dark:placeholder-purple-400 text-sm resize-none
+                                     focus:outline-none focus:border-purple-300 dark:focus:border-purple-400 focus:ring-2 focus:ring-purple-200/50
+                                     transition-all duration-300 shadow-sm"
+                        />
+                        <div className="text-right mt-1 px-2">
+                          <span className={`text-xs ${diary.length >= 500 ? "text-rose-400" : "text-[#c4b5e0] dark:text-purple-400"}`}>
+                            {diary.length}/500
+                          </span>
+                        </div>
+                      </motion.div>
+                    )}
+
                     {/* Action buttons */}
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 1.2 }}
-                      className="flex flex-col sm:flex-row gap-3 justify-center items-center mt-6 mb-8"
+                      className="flex flex-col sm:flex-row gap-3 justify-center items-center mt-4 mb-8"
                     >
                       <button
                         onClick={handleSave}

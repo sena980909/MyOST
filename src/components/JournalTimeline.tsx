@@ -105,9 +105,18 @@ export default function JournalTimeline({
                   </div>
 
                   {/* Text preview */}
-                  <p className="text-[#6b5b8a] dark:text-purple-200 text-sm leading-relaxed mb-3 line-clamp-2">
+                  <p className="text-[#6b5b8a] dark:text-purple-200 text-sm leading-relaxed mb-2 line-clamp-2">
                     {entry.text}
                   </p>
+
+                  {/* Diary */}
+                  {entry.diary && (
+                    <div className="bg-purple-50/50 dark:bg-purple-900/20 border border-purple-100 dark:border-purple-700 rounded-xl px-3 py-2 mb-3">
+                      <p className="text-[#6b5b8a] dark:text-purple-200 text-xs leading-relaxed whitespace-pre-wrap">
+                        {entry.diary}
+                      </p>
+                    </div>
+                  )}
 
                   {/* Expanded playlist */}
                   <AnimatePresence>
