@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,6 +13,7 @@ import AuthButton from "@/components/AuthButton";
 import AdBanner from "@/components/AdBanner";
 import MigrationPrompt from "@/components/MigrationPrompt";
 import ThemeToggle from "@/components/ThemeToggle";
+import BgmPlayer from "@/components/BgmPlayer";
 import { EmotionAnalysis, PlaylistResult, JournalEntry } from "@/types";
 import { useJournal } from "@/hooks/useJournal";
 
@@ -34,9 +34,12 @@ export default function Home() {
   const [localEntriesForMigration, setLocalEntriesForMigration] = useState<
     JournalEntry[]
   >([]);
+  const [bgmEnabled, setBgmEnabled] = useState(false);
 
-  const { data: session } = useSession();
-  const isTestAccount = session?.user?.email === "test@myost.com";
+  useEffect(() => {
+    const saved = localStorage.getItem("myost-bgm");
+    if (saved === "true") setBgmEnabled(true);
+  }, []);
 
   const {
     entries: journalEntries,
@@ -148,13 +151,13 @@ export default function Home() {
         <div className="absolute top-0 right-1/4 w-72 h-72 bg-yellow-100/30 dark:bg-amber-400/15 rounded-full blur-[100px]" />
       </div>
 
-      <div className="container mx-auto px-4 py-8 md:py-16 pb-20">
+      <div className="container mx-auto px-4 py-4 md:py-8 pb-20">
         {/* Header */}
         <motion.header
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8 relative"
+          className="text-center mb-6 relative"
         >
           <div className="flex items-center justify-between mb-4">
             <Link href="/" onClick={handleReset} className="cursor-pointer">
@@ -173,16 +176,41 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="cursor-pointer flex justify-center" onClick={handleReset}>
-            <Image
-              src="/MyOST-icon.png"
-              alt="MyOST 마스코트"
-              width={260}
-              height={260}
-              className="drop-shadow-lg rounded-full bg-white"
-              priority
-            />
+          <div
+            className="cursor-pointer flex justify-center"
+            onClick={() => {
+              if (appState === "input") {
+                const next = !bgmEnabled;
+                setBgmEnabled(next);
+                localStorage.setItem("myost-bgm", String(next));
+              } else {
+                handleReset();
+              }
+            }}
+          >
+            <motion.div
+              animate={
+                bgmEnabled && appState === "input"
+                  ? { rotate: [0, 2, 0, 2, 0, 2, 0] }
+                  : { rotate: 0 }
+              }
+              transition={
+                bgmEnabled && appState === "input"
+                  ? { duration: 4.5, repeat: Infinity, ease: "easeInOut" }
+                  : { duration: 0.3 }
+              }
+            >
+              <Image
+                src="/MyOST-icon.png"
+                alt="MyOST 마스코트"
+                width={260}
+                height={260}
+                className="drop-shadow-lg rounded-full"
+                priority
+              />
+            </motion.div>
           </div>
+          <BgmPlayer isPlaying={appState === "input" && bgmEnabled} />
           <p className="text-[#8b7fa3] dark:text-purple-300 text-lg md:text-xl mt-2">
             당신의 감정에 맞는 음악을 찾아드립니다
           </p>
@@ -277,14 +305,6 @@ export default function Home() {
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.3 }}
                   >
-                    {isTestAccount && (
-                      <div className="max-w-2xl mx-auto mb-4 bg-purple-50/60 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800 rounded-xl px-4 py-3 text-center">
-                        <p className="text-[#8b7fa3] dark:text-purple-300 text-xs leading-relaxed">
-                          일반 계정은 1시간에 <span className="font-semibold text-purple-500 dark:text-purple-400">3번</span>,
-                          테스트 계정은 <span className="font-semibold text-purple-500 dark:text-purple-400">10번</span>까지 생성할 수 있어요.
-                        </p>
-                      </div>
-                    )}
                     <EmotionInput onSubmit={handleSubmit} isLoading={false} />
                   </motion.div>
                 )}

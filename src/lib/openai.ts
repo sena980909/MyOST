@@ -9,7 +9,7 @@ function getClient() {
 
 export async function analyzeAndRecommend(text: string): Promise<EmotionAnalysis> {
   const response = await getClient().chat.completions.create({
-    model: "gpt-4o",
+    model: "gpt-4o-mini",
     messages: [
       {
         role: "system",
@@ -74,7 +74,7 @@ export async function generateDJComment(
   trackNames: string[]
 ): Promise<string> {
   const response = await getClient().chat.completions.create({
-    model: "gpt-4o",
+    model: "gpt-4o-mini",
     messages: [
       {
         role: "system",

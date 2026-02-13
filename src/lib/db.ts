@@ -148,28 +148,14 @@ export async function saveJournalEntry(
   };
 }
 
-const RATE_LIMIT_DEFAULT = 3;
-const RATE_LIMIT_TEST = 10;
+const RATE_LIMIT = 10;
 const RATE_WINDOW_HOURS = 1;
-const TEST_ACCOUNT_EMAIL = "test@myost.com";
-
-async function getRateLimit(userId: string | null): Promise<number> {
-  if (!userId) return RATE_LIMIT_DEFAULT;
-
-  const { data } = await supabase()
-    .from("users")
-    .select("email")
-    .eq("id", userId)
-    .single();
-
-  return data?.email === TEST_ACCOUNT_EMAIL ? RATE_LIMIT_TEST : RATE_LIMIT_DEFAULT;
-}
 
 export async function checkRateLimit(
   userId: string | null,
   ip: string
 ): Promise<{ allowed: boolean; remaining: number; limit: number }> {
-  const limit = await getRateLimit(userId);
+  const limit = RATE_LIMIT;
   const oneHourAgo = new Date(Date.now() - RATE_WINDOW_HOURS * 60 * 60 * 1000).toISOString();
 
   let query = supabase()
