@@ -54,6 +54,9 @@ const translations = {
         "모든 기기에서 감정 기록 동기화",
         "감정 기록 영구 보관",
       ],
+      inAppBrowser: "카카오톡/인스타 등 앱 내 브라우저에서는 Google 로그인이 제한됩니다.",
+      inAppBrowserAction: "외부 브라우저로 열기",
+      inAppBrowserOr: "또는 이메일로 로그인해주세요.",
       errors: {
         signupFailed: "회원가입에 실패했습니다.",
         signupDoneLogin: "회원가입 완료! 로그인해주세요.",
@@ -164,6 +167,9 @@ const translations = {
         "Sync emotion records across all devices",
         "Permanent storage of your records",
       ],
+      inAppBrowser: "Google login is not available in in-app browsers (KakaoTalk, Instagram, etc.).",
+      inAppBrowserAction: "Open in browser",
+      inAppBrowserOr: "Or log in with email instead.",
       errors: {
         signupFailed: "Sign up failed.",
         signupDoneLogin: "Account created! Please log in.",
