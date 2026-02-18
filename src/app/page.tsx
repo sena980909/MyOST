@@ -68,11 +68,27 @@ export default function Home() {
     setSaved(false);
     setCurrentText(text);
 
+    // Collect all previously saved songs to exclude from recommendations
+    const excludeSongs = journalEntries.flatMap((entry) =>
+      entry.playlist.tracks.map((track) => ({
+        title: track.name,
+        artist: track.artist,
+      }))
+    );
+    // Deduplicate by title+artist
+    const seen = new Set<string>();
+    const uniqueExclude = excludeSongs.filter((s) => {
+      const key = `${s.title.toLowerCase()}::${s.artist.toLowerCase()}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
     try {
       const analyzeRes = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, lang }),
+        body: JSON.stringify({ text, lang, excludeSongs: uniqueExclude }),
       });
 
       if (!analyzeRes.ok) {

@@ -7,7 +7,11 @@ import { Lang, getTranslations } from "@/lib/i18n";
 
 export async function POST(request: NextRequest) {
   try {
-    const { text, lang = "ko" } = await request.json() as { text: string; lang?: Lang };
+    const { text, lang = "ko", excludeSongs = [] } = await request.json() as {
+      text: string;
+      lang?: Lang;
+      excludeSongs?: { title: string; artist: string }[];
+    };
     const t = getTranslations(lang === "en" ? "en" : "ko");
 
     // Rate limiting
@@ -54,7 +58,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const analysis = await analyzeAndRecommend(text, lang === "en" ? "en" : "ko");
+    const analysis = await analyzeAndRecommend(text, lang === "en" ? "en" : "ko", excludeSongs);
+
+    // Post-filter: remove any songs that slipped through despite exclusion prompt
+    if (excludeSongs.length > 0) {
+      const excludeSet = new Set(
+        excludeSongs.map(s => `${s.title.toLowerCase()}::${s.artist.toLowerCase()}`)
+      );
+      analysis.recommendations = analysis.recommendations.filter(
+        r => !excludeSet.has(`${r.title.toLowerCase()}::${r.artist.toLowerCase()}`)
+      );
+    }
 
     // Log successful generation
     await logGeneration(userId, ip);
