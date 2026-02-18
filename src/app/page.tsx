@@ -459,12 +459,6 @@ export default function Home() {
         </AnimatePresence>
       </div>
 
-      {/* Footer */}
-      <footer className="fixed bottom-0 left-0 right-0 py-4 text-center bg-gradient-to-t from-[#f8f5ff] dark:from-[#1a1625] to-transparent">
-        <p className="text-[#c4b5e0] dark:text-purple-400 text-xs">
-          {t.page.footer}
-        </p>
-      </footer>
     </main>
   );
 }
